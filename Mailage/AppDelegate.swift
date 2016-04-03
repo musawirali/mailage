@@ -11,17 +11,20 @@ import WebKit
 import GTMOAuth2
 
 @NSApplicationMain
-class AppDelegate: NSObject, NSApplicationDelegate, WebFrameLoadDelegate {
+class AppDelegate: NSObject, NSApplicationDelegate {
 
     @IBOutlet weak var window: NSWindow!
     var loginWC: GTMOAuth2WindowController?
     var googleAuth: GTMOAuth2Authentication! = nil
+    
+    var loginMenuItem: NSMenuItem?
 
     let statusItem = NSStatusBar.systemStatusBar().statusItemWithLength(-2)
     
     let keychainToken = "Mailage Mac"
     let clientId = "653085801125-tn3i386peicmjia3e7m1joe9jf0vclsd.apps.googleusercontent.com"
     let clientSecret = "0aZQX6Q1Yx35wksuHYwmmkkL"
+    let loginMenuTitle = "Login"
 
     func applicationDidFinishLaunching(aNotification: NSNotification) {
         // Create menu
@@ -29,31 +32,39 @@ class AppDelegate: NSObject, NSApplicationDelegate, WebFrameLoadDelegate {
             button.image = NSImage(named: "StatusBarButtonImage")
         }
         
-        var objects: NSArray?
-        NSBundle.mainBundle().loadNibNamed("StatusMenu", owner: nil, topLevelObjects: &objects)
-        if let objects = objects {
-            for object in objects {
-                if let menu = object as? NSMenu {
-                    statusItem.menu = menu
-                    break
-                }
-            }
-        }
+        let menu = NSMenu(title: "Mailage")
+        self.loginMenuItem = NSMenuItem(title: "Login", action: #selector(onLoginClick), keyEquivalent: "")
+        
+        menu.addItemWithTitle("Gallery", action: #selector(onGalleryClick), keyEquivalent: "")
+        menu.addItem(NSMenuItem.separatorItem())
+        menu.addItem(self.loginMenuItem!)
+        menu.addItemWithTitle("Quit", action: #selector(onQuitClick), keyEquivalent: "q")
+
+        statusItem.menu = menu
         
         self.googleAuth = GTMOAuth2WindowController.authForGoogleFromKeychainForName(self.keychainToken, clientID: self.clientId, clientSecret: self.clientSecret)
         if (!self.googleAuth.canAuthorize) {
-            // Need login
-            print("Need login")
+            self.loginMenuItem?.title = self.loginMenuTitle
         } else {
-            print("Logged in")
+            self.loginMenuItem?.title = "Logout"
         }
     }
 
-    @IBAction func onQuitClick(sender: AnyObject) {
+    func onQuitClick(sender: AnyObject) {
         NSApplication.sharedApplication().terminate(nil)
     }
 
-    @IBAction func onLoginClick(sender: AnyObject) {
+    func onLoginClick(sender: AnyObject) {
+        // Logging out?
+        if self.loginMenuItem?.title != self.loginMenuTitle {
+            GTMOAuth2WindowController.removeAuthFromKeychainForName(self.keychainToken)
+            GTMOAuth2WindowController.revokeTokenForGoogleAuthentication(self.googleAuth)
+            
+            self.loginMenuItem?.title = self.loginMenuTitle
+            return
+        }
+        
+        // Logging in
         if (self.loginWC == nil) {
             self.loginWC = GTMOAuth2WindowController(scope: "https://www.googleapis.com/auth/gmail.readonly", clientID: self.clientId, clientSecret: self.clientSecret, keychainItemName: self.keychainToken, resourceBundle: nil)
             self.loginWC?.initialHTMLString = "Authentication for Mailage"
@@ -68,9 +79,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, WebFrameLoadDelegate {
         })
         NSApplication.sharedApplication().activateIgnoringOtherApps(true)
     }
-    
-    func webView(sender: WebView!, didFinishLoadForFrame frame: WebFrame!) {
-        print("finished loading")
+
+    func onGalleryClick(sender: AnyObject) {
     }
 
     func applicationWillTerminate(aNotification: NSNotification) {
