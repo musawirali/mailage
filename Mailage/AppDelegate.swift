@@ -69,7 +69,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         
         // Logging in
         if (self.loginWC == nil) {
-            self.loginWC = GTMOAuth2WindowController(scope: "https://www.googleapis.com/auth/gmail.readonly", clientID: self.clientId, clientSecret: self.clientSecret, keychainItemName: self.keychainToken, resourceBundle: nil)
+            self.loginWC = GTMOAuth2WindowController(scope: "https://www.googleapis.com/auth/gmail.readonly", clientID: self.clientId, clientSecret: self.clientSecret, keychainItemName: self.keychainToken, resourceBundle: NSBundle(forClass: GTMOAuth2WindowController.self))
             self.loginWC?.initialHTMLString = "Authentication for Mailage"
         }
         self.loginWC?.signInSheetModalForWindow(nil, completionHandler: { (auth, err) in

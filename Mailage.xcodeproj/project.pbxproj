@@ -13,7 +13,6 @@
 		F39C5CD71CAF3DE700919F29 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F39C5CD61CAF3DE700919F29 /* AppDelegate.swift */; };
 		F39C5CD91CAF3DE700919F29 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F39C5CD81CAF3DE700919F29 /* Assets.xcassets */; };
 		F39C5CDC1CAF3DE700919F29 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = F39C5CDA1CAF3DE700919F29 /* MainMenu.xib */; };
-		F39C5CE81CAF548900919F29 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F39C5CE71CAF548900919F29 /* WebKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,7 +26,6 @@
 		F39C5CD81CAF3DE700919F29 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F39C5CDB1CAF3DE700919F29 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		F39C5CDD1CAF3DE700919F29 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		F39C5CE71CAF548900919F29 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -35,7 +33,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F39C5CE81CAF548900919F29 /* WebKit.framework in Frameworks */,
 				5A11B5FBA111D1CAE372D118 /* Pods_Mailage.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -63,7 +60,6 @@
 		F39C5CCA1CAF3DE700919F29 = {
 			isa = PBXGroup;
 			children = (
-				F39C5CE71CAF548900919F29 /* WebKit.framework */,
 				F39C5CD51CAF3DE700919F29 /* Mailage */,
 				F39C5CD41CAF3DE700919F29 /* Products */,
 				AC75C7D7CDBAD3A5AF275D7D /* Pods */,
