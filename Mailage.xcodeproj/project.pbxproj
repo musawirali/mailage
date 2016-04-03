@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		5A11B5FBA111D1CAE372D118 /* Pods_Mailage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BDA94FEDDD5A621FC3D3DACB /* Pods_Mailage.framework */; };
+		F38EA3A91CB1D14A009436CB /* GalleryWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = F38EA3A81CB1D14A009436CB /* GalleryWindow.xib */; };
+		F38EA3AB1CB1D188009436CB /* GalleryWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F38EA3AA1CB1D188009436CB /* GalleryWindowController.swift */; };
 		F39C5CD71CAF3DE700919F29 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F39C5CD61CAF3DE700919F29 /* AppDelegate.swift */; };
 		F39C5CD91CAF3DE700919F29 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F39C5CD81CAF3DE700919F29 /* Assets.xcassets */; };
 		F39C5CDC1CAF3DE700919F29 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = F39C5CDA1CAF3DE700919F29 /* MainMenu.xib */; };
@@ -18,6 +20,8 @@
 		6BFA1C221CC872002F778A7C /* Pods-Mailage.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Mailage.release.xcconfig"; path = "Pods/Target Support Files/Pods-Mailage/Pods-Mailage.release.xcconfig"; sourceTree = "<group>"; };
 		AE3806BF29F0C6D929C7F652 /* Pods-Mailage.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Mailage.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Mailage/Pods-Mailage.debug.xcconfig"; sourceTree = "<group>"; };
 		BDA94FEDDD5A621FC3D3DACB /* Pods_Mailage.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Mailage.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F38EA3A81CB1D14A009436CB /* GalleryWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GalleryWindow.xib; sourceTree = "<group>"; };
+		F38EA3AA1CB1D188009436CB /* GalleryWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GalleryWindowController.swift; sourceTree = "<group>"; };
 		F39C5CD31CAF3DE700919F29 /* Mailage.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Mailage.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F39C5CD61CAF3DE700919F29 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F39C5CD81CAF3DE700919F29 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -82,6 +86,8 @@
 				F39C5CD81CAF3DE700919F29 /* Assets.xcassets */,
 				F39C5CDA1CAF3DE700919F29 /* MainMenu.xib */,
 				F39C5CDD1CAF3DE700919F29 /* Info.plist */,
+				F38EA3A81CB1D14A009436CB /* GalleryWindow.xib */,
+				F38EA3AA1CB1D188009436CB /* GalleryWindowController.swift */,
 			);
 			path = Mailage;
 			sourceTree = "<group>";
@@ -148,6 +154,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F39C5CD91CAF3DE700919F29 /* Assets.xcassets in Resources */,
+				F38EA3A91CB1D14A009436CB /* GalleryWindow.xib in Resources */,
 				F39C5CDC1CAF3DE700919F29 /* MainMenu.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -207,6 +214,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F38EA3AB1CB1D188009436CB /* GalleryWindowController.swift in Sources */,
 				F39C5CD71CAF3DE700919F29 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

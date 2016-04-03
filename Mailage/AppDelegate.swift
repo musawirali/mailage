@@ -15,6 +15,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     @IBOutlet weak var window: NSWindow!
     var loginWC: GTMOAuth2WindowController?
+    var galleryWC: GalleryWindowController?
     var googleAuth: GTMOAuth2Authentication! = nil
     
     var loginMenuItem: NSMenuItem?
@@ -48,6 +49,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         } else {
             self.loginMenuItem?.title = "Logout"
         }
+        
+        self.onGalleryClick(self)
     }
 
     func onQuitClick(sender: AnyObject) {
@@ -81,6 +84,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     func onGalleryClick(sender: AnyObject) {
+        if (self.galleryWC == nil) {
+            self.galleryWC = GalleryWindowController.CreateWC()
+        }
+        self.galleryWC?.showWindow(sender)
+        NSApplication.sharedApplication().activateIgnoringOtherApps(true)
     }
 
     func applicationWillTerminate(aNotification: NSNotification) {
