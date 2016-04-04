@@ -11,15 +11,80 @@
         <window title="Mailage Gallery" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" animationBehavior="default" id="QvC-M9-y7g">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="196" y="240" width="480" height="270"/>
+            <rect key="contentRect" x="196" y="240" width="600" height="300"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1027"/>
+            <value key="minSize" type="size" width="600" height="300"/>
             <view key="contentView" id="EiT-Mj-1SZ">
-                <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
+                <rect key="frame" x="0.0" y="0.0" width="600" height="300"/>
                 <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="H24-wG-aLH" customClass="NSVisualEffectView">
+                        <rect key="frame" x="0.0" y="0.0" width="170" height="300"/>
+                        <subviews>
+                            <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="rsh-Uf-B23">
+                                <rect key="frame" x="18" y="246" width="134" height="34"/>
+                                <textFieldCell key="cell" controlSize="mini" sendsActionOnEndEditing="YES" title="what ad asd asdever ever ass e asd" id="6NW-U2-KsZ">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="rsh-Uf-B23" firstAttribute="leading" secondItem="H24-wG-aLH" secondAttribute="leading" constant="20" id="HK5-zX-m8F"/>
+                            <constraint firstItem="rsh-Uf-B23" firstAttribute="top" secondItem="H24-wG-aLH" secondAttribute="top" constant="20" id="MYt-38-oAb"/>
+                            <constraint firstAttribute="trailing" secondItem="rsh-Uf-B23" secondAttribute="trailing" constant="20" id="Xjl-fI-buY"/>
+                            <constraint firstAttribute="width" constant="170" id="bq5-a5-nBN"/>
+                        </constraints>
+                    </customView>
+                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="PN7-Qw-RHi">
+                        <rect key="frame" x="178" y="30" width="422" height="270"/>
+                    </customView>
+                    <visualEffectView appearanceType="vibrantDark" blendingMode="behindWindow" state="active" translatesAutoresizingMaskIntoConstraints="NO" id="6bm-LU-ck4">
+                        <rect key="frame" x="170" y="0.0" width="430" height="22"/>
+                        <subviews>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="PZz-MV-BlN">
+                                <rect key="frame" x="8" y="4" width="414" height="15"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="15" id="tL8-7l-Znu"/>
+                                </constraints>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Not logged in" id="QlJ-Cs-1AD">
+                                    <font key="font" metaFont="smallSystem"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="PZz-MV-BlN" firstAttribute="leading" secondItem="6bm-LU-ck4" secondAttribute="leading" constant="10" id="0aR-1z-auG"/>
+                            <constraint firstItem="PZz-MV-BlN" firstAttribute="centerY" secondItem="6bm-LU-ck4" secondAttribute="centerY" id="Hmd-CZ-XvC"/>
+                            <constraint firstAttribute="trailing" secondItem="PZz-MV-BlN" secondAttribute="trailing" constant="10" id="fAp-Uq-X0W"/>
+                        </constraints>
+                    </visualEffectView>
+                </subviews>
+                <constraints>
+                    <constraint firstAttribute="trailing" secondItem="PN7-Qw-RHi" secondAttribute="trailing" id="38Y-Ka-c05"/>
+                    <constraint firstItem="H24-wG-aLH" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" id="421-82-Tpa"/>
+                    <constraint firstAttribute="bottom" secondItem="6bm-LU-ck4" secondAttribute="bottom" id="8G8-BQ-r1L"/>
+                    <constraint firstItem="6bm-LU-ck4" firstAttribute="leading" secondItem="H24-wG-aLH" secondAttribute="trailing" id="A3t-DN-TgB"/>
+                    <constraint firstItem="PN7-Qw-RHi" firstAttribute="top" secondItem="EiT-Mj-1SZ" secondAttribute="top" id="OmR-I3-qJl"/>
+                    <constraint firstItem="H24-wG-aLH" firstAttribute="top" secondItem="EiT-Mj-1SZ" secondAttribute="top" id="WLK-5d-shn"/>
+                    <constraint firstAttribute="bottom" secondItem="H24-wG-aLH" secondAttribute="bottom" id="Yr7-Hx-FHj"/>
+                    <constraint firstItem="PN7-Qw-RHi" firstAttribute="leading" secondItem="H24-wG-aLH" secondAttribute="trailing" constant="8" id="Zsm-hg-bwQ"/>
+                    <constraint firstAttribute="bottom" secondItem="PN7-Qw-RHi" secondAttribute="bottom" constant="30" id="avo-JL-L4G"/>
+                    <constraint firstAttribute="trailing" secondItem="6bm-LU-ck4" secondAttribute="trailing" id="gVV-uc-9KG"/>
+                    <constraint firstItem="6bm-LU-ck4" firstAttribute="top" secondItem="PN7-Qw-RHi" secondAttribute="bottom" constant="8" id="uB0-Ib-cMg"/>
+                </constraints>
             </view>
+            <connections>
+                <outlet property="delegate" destination="Msj-jl-IG7" id="rmk-FZ-1Qj"/>
+            </connections>
+            <point key="canvasLocation" x="254" y="421"/>
         </window>
         <customObject id="Msj-jl-IG7" customClass="GalleryWindowController" customModule="Mailage" customModuleProvider="target">
             <connections>
+                <outlet property="sideBarView" destination="H24-wG-aLH" id="KDW-gV-wZF"/>
+                <outlet property="statusText" destination="PZz-MV-BlN" id="jbs-oZ-c27"/>
                 <outlet property="window" destination="QvC-M9-y7g" id="JHM-w2-ne9"/>
             </connections>
         </customObject>

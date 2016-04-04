@@ -18,8 +18,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     var galleryWC: GalleryWindowController?
     var googleAuth: GTMOAuth2Authentication! = nil
     
+    var userProfile: Dictionary<String, AnyObject>?
+    
     var loginMenuItem: NSMenuItem?
-
     let statusItem = NSStatusBar.systemStatusBar().statusItemWithLength(-2)
     
     let keychainToken = "Mailage Mac"
@@ -48,9 +49,30 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             self.loginMenuItem?.title = self.loginMenuTitle
         } else {
             self.loginMenuItem?.title = "Logout"
+            self.fetchProfile()
         }
         
         self.onGalleryClick(self)
+    }
+    
+    func fetchProfile() {
+        if !self.googleAuth.canAuthorize {
+            self.userProfile = nil
+            self.galleryWC?.updateStatus(self.userProfile)
+            return
+        }
+
+        let req = NSMutableURLRequest(URL: NSURL(string: "https://www.googleapis.com/gmail/v1/users/me/profile")!)
+        let fetcher = GTMSessionFetcher(request: req)
+        fetcher.authorizer = self.googleAuth
+        fetcher.beginFetchWithCompletionHandler({ (data, err) in
+            if let data = data {
+                if let json = try? NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.AllowFragments) {
+                    self.userProfile = json as? Dictionary<String, AnyObject>
+                    self.galleryWC?.updateStatus(self.userProfile)
+                }
+            }
+        })
     }
 
     func onQuitClick(sender: AnyObject) {
@@ -64,6 +86,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             GTMOAuth2WindowController.revokeTokenForGoogleAuthentication(self.googleAuth)
             
             self.loginMenuItem?.title = self.loginMenuTitle
+            
+            self.fetchProfile()
+            NSApplication.sharedApplication().activateIgnoringOtherApps(true)
             return
         }
         
@@ -75,7 +100,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         self.loginWC?.signInSheetModalForWindow(nil, completionHandler: { (auth, err) in
             self.googleAuth = auth
             if (self.googleAuth.canAuthorize) {
-                print("ready to go")
+                self.fetchProfile()
             } else {
                 print("not authorized")
             }

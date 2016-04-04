@@ -11,6 +11,9 @@ import Cocoa
 
 class GalleryWindowController: NSWindowController {
     
+    @IBOutlet weak var sideBarView: NSVisualEffectView!
+    @IBOutlet weak var statusText: NSTextField!
+    
     class func CreateWC() -> GalleryWindowController? {
         
         var objects: NSArray?
@@ -24,5 +27,23 @@ class GalleryWindowController: NSWindowController {
         }
         
         return nil
+    }
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        
+        self.sideBarView.wantsLayer = true
+        self.sideBarView.material = NSVisualEffectMaterial.Sidebar
+        self.sideBarView.blendingMode = NSVisualEffectBlendingMode.BehindWindow
+        self.sideBarView.state = NSVisualEffectState.Active
+    }
+    
+    func updateStatus(userProfile: Dictionary<String, AnyObject>?) {
+        if let profile = userProfile {
+            let email = profile["emailAddress"] as! String
+            self.statusText.stringValue = "Logged in as \(email)"
+        } else {
+            self.statusText.stringValue = "Not logged in"
+        }
     }
 }
