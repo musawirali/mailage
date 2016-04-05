@@ -27,6 +27,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     let clientId = "653085801125-tn3i386peicmjia3e7m1joe9jf0vclsd.apps.googleusercontent.com"
     let clientSecret = "0aZQX6Q1Yx35wksuHYwmmkkL"
     let loginMenuTitle = "Login"
+    
+    let message_queue = dispatch_queue_create("message_q", nil)
 
     func applicationDidFinishLaunching(aNotification: NSNotification) {
         // Create menu
@@ -73,6 +75,99 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 }
             }
         })
+        
+        self.getMessages()
+    }
+    
+    func getMessages() {
+        let urlStr = "https://www.googleapis.com/gmail/v1/users/me/messages?q=filename:jpg OR filename:png OR filename:jpeg".stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())
+        let req = NSMutableURLRequest(URL: NSURL(string: urlStr!)!);
+        let fetcher = GTMSessionFetcher(request: req)
+        fetcher.authorizer = self.googleAuth
+        fetcher.beginFetchWithCompletionHandler({ (data, err) in
+            if let data = data {
+                if let json = try? NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.AllowFragments) {
+                    if let data = json as? Dictionary<String, AnyObject> {
+                        if let messages = data["messages"] as? [Dictionary<String, AnyObject>] {
+                            for message in messages {
+                                dispatch_async(self.message_queue, {
+                                    self.getMessage(message)
+                                })
+                            }
+                        }
+                    }
+                }
+            }
+        })
+    }
+    
+    func getMessage(msg: Dictionary<String, AnyObject>) {
+        let msg_id = msg["id"] as! String
+        
+        let urlStr = "https://www.googleapis.com/gmail/v1/users/me/messages/\(msg_id)".stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())
+        let req = NSMutableURLRequest(URL: NSURL(string: urlStr!)!);
+        let fetcher = GTMSessionFetcher(request: req)
+        fetcher.authorizer = self.googleAuth
+        fetcher.beginFetchWithCompletionHandler({ (data, err) in
+            if let data = data {
+                if let json = try? NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.AllowFragments) {
+                    if let data = json as? Dictionary<String, AnyObject> {
+                        if let payload = data["payload"] as? Dictionary<String, AnyObject> {
+                            self.parseMessage(msg_id, msg: payload)
+                        }
+                    }
+                }
+            }
+            dispatch_resume(self.message_queue)
+        })
+        
+        dispatch_suspend(self.message_queue)
+    }
+    
+    func parseMessage(msg_id: String, msg: Dictionary<String, AnyObject>) {
+        let regexp = try? NSRegularExpression(pattern: "^image", options: NSRegularExpressionOptions.CaseInsensitive)
+        let mimeType = msg["mimeType"] as! String
+        if let matches = regexp?.matchesInString(mimeType, options: NSMatchingOptions.Anchored, range: NSMakeRange(0, (mimeType as NSString).length)) {
+            if matches.count > 0 {
+                self.downloadPart(msg_id, part: msg)
+            }
+        }
+        
+        if let parts = msg["parts"] as? [Dictionary<String, AnyObject>] {
+            for part in parts {
+                self.parseMessage(msg_id, msg: part)
+            }
+        }
+    }
+    
+    func downloadPart(msg_id: String, part: Dictionary<String, AnyObject>) {
+        if let body = part["body"] as? Dictionary<String, AnyObject> {
+            if let attachmentId = body["attachmentId"] as? String {
+                let urlStr = "https://www.googleapis.com/gmail/v1/users/me/messages/\(msg_id)/attachments/\(attachmentId)".stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())
+                let req = NSMutableURLRequest(URL: NSURL(string: urlStr!)!);
+                let fetcher = GTMSessionFetcher(request: req)
+                fetcher.authorizer = self.googleAuth
+                fetcher.beginFetchWithCompletionHandler({ (data, err) in
+                    if let data = data {
+                        if let json = try? NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions(rawValue: 0)) {
+                            if let data = json as? Dictionary<String, AnyObject> {
+                                if let img_data = data["data"] as? String {
+                                    
+                                    let newstr = img_data.stringByReplacingOccurrencesOfString("_", withString: "/", options: NSStringCompareOptions.CaseInsensitiveSearch, range: nil)
+                                    let newstr2 = newstr.stringByReplacingOccurrencesOfString("-", withString: "+", options: NSStringCompareOptions.CaseInsensitiveSearch, range: nil)
+                                    
+                                    if let ns_data = NSData(base64EncodedString: newstr2, options: NSDataBase64DecodingOptions.IgnoreUnknownCharacters) {
+                                        if let img = NSImage(data: ns_data) {
+                                            self.galleryWC?.imageView.image = img
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                })
+            }
+        }
     }
 
     func onQuitClick(sender: AnyObject) {

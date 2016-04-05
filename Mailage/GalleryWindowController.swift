@@ -13,6 +13,7 @@ class GalleryWindowController: NSWindowController {
     
     @IBOutlet weak var sideBarView: NSVisualEffectView!
     @IBOutlet weak var statusText: NSTextField!
+    @IBOutlet weak var imageView: NSImageView!
     
     class func CreateWC() -> GalleryWindowController? {
         

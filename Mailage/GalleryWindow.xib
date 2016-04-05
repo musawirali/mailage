@@ -39,6 +39,20 @@
                     </customView>
                     <customView translatesAutoresizingMaskIntoConstraints="NO" id="PN7-Qw-RHi">
                         <rect key="frame" x="178" y="30" width="422" height="270"/>
+                        <subviews>
+                            <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="dNl-D8-10T">
+                                <rect key="frame" x="136" y="60" width="150" height="150"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="150" id="Le7-q5-h9L"/>
+                                    <constraint firstAttribute="width" constant="150" id="Xrn-ww-6Gw"/>
+                                </constraints>
+                                <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="1L3-Lr-5Kj"/>
+                            </imageView>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="dNl-D8-10T" firstAttribute="centerY" secondItem="PN7-Qw-RHi" secondAttribute="centerY" id="095-FV-FgS"/>
+                            <constraint firstItem="dNl-D8-10T" firstAttribute="centerX" secondItem="PN7-Qw-RHi" secondAttribute="centerX" id="mUs-Te-8pw"/>
+                        </constraints>
                     </customView>
                     <visualEffectView appearanceType="vibrantDark" blendingMode="behindWindow" state="active" translatesAutoresizingMaskIntoConstraints="NO" id="6bm-LU-ck4">
                         <rect key="frame" x="170" y="0.0" width="430" height="22"/>
@@ -83,6 +97,7 @@
         </window>
         <customObject id="Msj-jl-IG7" customClass="GalleryWindowController" customModule="Mailage" customModuleProvider="target">
             <connections>
+                <outlet property="imageView" destination="dNl-D8-10T" id="cQM-jc-AOL"/>
                 <outlet property="sideBarView" destination="H24-wG-aLH" id="KDW-gV-wZF"/>
                 <outlet property="statusText" destination="PZz-MV-BlN" id="jbs-oZ-c27"/>
                 <outlet property="window" destination="QvC-M9-y7g" id="JHM-w2-ne9"/>
