@@ -28,7 +28,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     let clientSecret = "0aZQX6Q1Yx35wksuHYwmmkkL"
     let loginMenuTitle = "Login"
     
-    let message_queue = dispatch_queue_create("message_q", nil)
+    var message_queue = dispatch_queue_create("message_q", nil)
+    var msgCount = 0
+    
+    var fetchedTill: NSDate?
+    var sync_queue = dispatch_queue_create("sync_q", nil)
 
     func applicationDidFinishLaunching(aNotification: NSNotification) {
         // Create menu
@@ -74,14 +78,41 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                     self.galleryWC?.updateStatus(self.userProfile)
                 }
             }
+            
+            // Start message sync loop
+            dispatch_async(self.sync_queue) {
+                self.startGetMessages()
+            }
         })
-        
-        self.getMessages()
     }
     
-    func getMessages() {
-        let urlStr = "https://www.googleapis.com/gmail/v1/users/me/messages?q=filename:jpg OR filename:png OR filename:jpeg".stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())
-        let req = NSMutableURLRequest(URL: NSURL(string: urlStr!)!);
+    func startGetMessages() {
+        if !self.googleAuth.canAuthorize {
+            print("Cannot sync, not logged in. Exiting queue")
+            return
+        }
+        
+        let dateFormatter = NSDateFormatter()
+        dateFormatter.dateFormat = "yyyy/MM/dd"
+        
+        let fetchDate = self.fetchedTill ?? NSDate(timeIntervalSince1970: 0)
+        self.galleryWC?.syncText.stringValue = "Sync'ing messages from date: \(dateFormatter.stringFromDate(fetchDate))"
+        
+        print("begin")
+        self.getMessages(nil, fetchDate: fetchDate)
+    }
+    
+    func getMessages(nextPageToken: String?, fetchDate: NSDate) {
+        
+        let dateFormatter = NSDateFormatter()
+        dateFormatter.dateFormat = "yyyy/MM/dd"
+        
+        var urlStr = "https://www.googleapis.com/gmail/v1/users/me/messages?q=filename:jpg OR filename:png OR filename:jpeg after:\(dateFormatter.stringFromDate(fetchDate))".stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())!
+        if let token = nextPageToken {
+            urlStr = urlStr + "&pageToken=\(token)"
+        }
+
+        let req = NSMutableURLRequest(URL: NSURL(string: urlStr)!);
         let fetcher = GTMSessionFetcher(request: req)
         fetcher.authorizer = self.googleAuth
         fetcher.beginFetchWithCompletionHandler({ (data, err) in
@@ -89,10 +120,28 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 if let json = try? NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.AllowFragments) {
                     if let data = json as? Dictionary<String, AnyObject> {
                         if let messages = data["messages"] as? [Dictionary<String, AnyObject>] {
-                            for message in messages {
-                                dispatch_async(self.message_queue, {
-                                    self.getMessage(message)
-                                })
+//                            for message in messages {
+//                                //dispatch_async(self.message_queue, {
+//                                //    self.getMessage(message)
+//                                //})
+//                                print(message)
+//                            }
+                            self.msgCount += messages.count
+                            self.galleryWC?.countText.stringValue = "M: \(self.msgCount)"
+                        }
+                        
+                        if let nextPageToken = data["nextPageToken"] as? String {
+                            dispatch_async(self.message_queue, {
+                                self.getMessages(nextPageToken, fetchDate: fetchDate)
+                            })
+                        } else {
+                            print("done")
+                            self.fetchedTill = NSDate()
+                            self.galleryWC?.syncText.stringValue = "Sync'ed"
+                            
+                            dispatch_async(self.sync_queue) {
+                                sleep(10)
+                                self.startGetMessages()
                             }
                         }
                     }

@@ -48,17 +48,31 @@
                                 </constraints>
                                 <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="1L3-Lr-5Kj"/>
                             </imageView>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Vr7-WZ-lNd">
+                                <rect key="frame" x="18" y="231" width="386" height="17"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="17" id="nww-VU-nXL"/>
+                                </constraints>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" id="m5A-2V-yy8">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
                         </subviews>
                         <constraints>
                             <constraint firstItem="dNl-D8-10T" firstAttribute="centerY" secondItem="PN7-Qw-RHi" secondAttribute="centerY" id="095-FV-FgS"/>
+                            <constraint firstItem="Vr7-WZ-lNd" firstAttribute="leading" secondItem="PN7-Qw-RHi" secondAttribute="leading" constant="20" id="RLS-4a-Lvh"/>
+                            <constraint firstAttribute="trailing" secondItem="Vr7-WZ-lNd" secondAttribute="trailing" constant="20" id="TBP-cz-Hp9"/>
                             <constraint firstItem="dNl-D8-10T" firstAttribute="centerX" secondItem="PN7-Qw-RHi" secondAttribute="centerX" id="mUs-Te-8pw"/>
+                            <constraint firstItem="Vr7-WZ-lNd" firstAttribute="top" secondItem="PN7-Qw-RHi" secondAttribute="top" constant="22" id="xdY-XQ-x1V"/>
                         </constraints>
                     </customView>
                     <visualEffectView appearanceType="vibrantDark" blendingMode="behindWindow" state="active" translatesAutoresizingMaskIntoConstraints="NO" id="6bm-LU-ck4">
                         <rect key="frame" x="170" y="0.0" width="430" height="22"/>
                         <subviews>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="PZz-MV-BlN">
-                                <rect key="frame" x="8" y="4" width="414" height="15"/>
+                                <rect key="frame" x="126" y="4" width="296" height="15"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="15" id="tL8-7l-Znu"/>
                                 </constraints>
@@ -68,10 +82,24 @@
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Kjv-jx-McD">
+                                <rect key="frame" x="18" y="3" width="104" height="17"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="17" id="CYq-y0-Lru"/>
+                                    <constraint firstAttribute="width" constant="100" id="baX-8t-Lza"/>
+                                </constraints>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="M: 0" id="y7c-Ta-jzR">
+                                    <font key="font" metaFont="smallSystem"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
                         </subviews>
                         <constraints>
-                            <constraint firstItem="PZz-MV-BlN" firstAttribute="leading" secondItem="6bm-LU-ck4" secondAttribute="leading" constant="10" id="0aR-1z-auG"/>
                             <constraint firstItem="PZz-MV-BlN" firstAttribute="centerY" secondItem="6bm-LU-ck4" secondAttribute="centerY" id="Hmd-CZ-XvC"/>
+                            <constraint firstItem="Kjv-jx-McD" firstAttribute="centerY" secondItem="6bm-LU-ck4" secondAttribute="centerY" id="MvC-E5-H4L"/>
+                            <constraint firstItem="PZz-MV-BlN" firstAttribute="leading" secondItem="Kjv-jx-McD" secondAttribute="trailing" constant="8" id="S5m-Gp-TOz"/>
+                            <constraint firstItem="Kjv-jx-McD" firstAttribute="leading" secondItem="6bm-LU-ck4" secondAttribute="leading" constant="20" id="bPy-EM-v9M"/>
                             <constraint firstAttribute="trailing" secondItem="PZz-MV-BlN" secondAttribute="trailing" constant="10" id="fAp-Uq-X0W"/>
                         </constraints>
                     </visualEffectView>
@@ -97,9 +125,11 @@
         </window>
         <customObject id="Msj-jl-IG7" customClass="GalleryWindowController" customModule="Mailage" customModuleProvider="target">
             <connections>
+                <outlet property="countText" destination="Kjv-jx-McD" id="SNp-Bb-I5H"/>
                 <outlet property="imageView" destination="dNl-D8-10T" id="cQM-jc-AOL"/>
                 <outlet property="sideBarView" destination="H24-wG-aLH" id="KDW-gV-wZF"/>
                 <outlet property="statusText" destination="PZz-MV-BlN" id="jbs-oZ-c27"/>
+                <outlet property="syncText" destination="Vr7-WZ-lNd" id="nkt-e6-8CV"/>
                 <outlet property="window" destination="QvC-M9-y7g" id="JHM-w2-ne9"/>
             </connections>
         </customObject>

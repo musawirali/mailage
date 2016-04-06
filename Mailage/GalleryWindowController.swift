@@ -14,7 +14,11 @@ class GalleryWindowController: NSWindowController {
     @IBOutlet weak var sideBarView: NSVisualEffectView!
     @IBOutlet weak var statusText: NSTextField!
     @IBOutlet weak var imageView: NSImageView!
+    @IBOutlet weak var countText: NSTextField!
     
+    @IBOutlet weak var syncBtn: NSButton!
+    @IBOutlet weak var syncText: NSTextField!
+
     class func CreateWC() -> GalleryWindowController? {
         
         var objects: NSArray?
@@ -47,4 +51,11 @@ class GalleryWindowController: NSWindowController {
             self.statusText.stringValue = "Not logged in"
         }
     }
+    
+    @IBAction func onSync(sender: AnyObject) {
+        if let appDelegate = NSApplication.sharedApplication().delegate as? AppDelegate {
+            appDelegate.startGetMessages()
+        }
+    }
+    
 }
