@@ -12,7 +12,7 @@
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="196" y="240" width="600" height="300"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1027"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1440" height="877"/>
             <value key="minSize" type="size" width="600" height="300"/>
             <view key="contentView" id="EiT-Mj-1SZ">
                 <rect key="frame" x="0.0" y="0.0" width="600" height="300"/>
@@ -59,11 +59,27 @@
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="PAn-5R-2fm">
+                                <rect key="frame" x="14" y="13" width="81" height="32"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="000-ci-8m0"/>
+                                    <constraint firstAttribute="width" constant="69" id="fcQ-I9-615"/>
+                                </constraints>
+                                <buttonCell key="cell" type="push" title="Pause" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="aSX-Gj-KqA">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="pauseSync:" target="Msj-jl-IG7" id="LUo-nR-unM"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <constraints>
                             <constraint firstItem="dNl-D8-10T" firstAttribute="centerY" secondItem="PN7-Qw-RHi" secondAttribute="centerY" id="095-FV-FgS"/>
+                            <constraint firstAttribute="bottom" secondItem="PAn-5R-2fm" secondAttribute="bottom" constant="20" id="Coc-AK-jie"/>
                             <constraint firstItem="Vr7-WZ-lNd" firstAttribute="leading" secondItem="PN7-Qw-RHi" secondAttribute="leading" constant="20" id="RLS-4a-Lvh"/>
                             <constraint firstAttribute="trailing" secondItem="Vr7-WZ-lNd" secondAttribute="trailing" constant="20" id="TBP-cz-Hp9"/>
+                            <constraint firstItem="PAn-5R-2fm" firstAttribute="leading" secondItem="PN7-Qw-RHi" secondAttribute="leading" constant="20" id="lpc-Aw-Aiu"/>
                             <constraint firstItem="dNl-D8-10T" firstAttribute="centerX" secondItem="PN7-Qw-RHi" secondAttribute="centerX" id="mUs-Te-8pw"/>
                             <constraint firstItem="Vr7-WZ-lNd" firstAttribute="top" secondItem="PN7-Qw-RHi" secondAttribute="top" constant="22" id="xdY-XQ-x1V"/>
                         </constraints>
@@ -72,7 +88,7 @@
                         <rect key="frame" x="170" y="0.0" width="430" height="22"/>
                         <subviews>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="PZz-MV-BlN">
-                                <rect key="frame" x="126" y="4" width="296" height="15"/>
+                                <rect key="frame" x="176" y="4" width="246" height="15"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="15" id="tL8-7l-Znu"/>
                                 </constraints>
@@ -83,12 +99,12 @@
                                 </textFieldCell>
                             </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Kjv-jx-McD">
-                                <rect key="frame" x="18" y="3" width="104" height="17"/>
+                                <rect key="frame" x="18" y="3" width="154" height="17"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="17" id="CYq-y0-Lru"/>
-                                    <constraint firstAttribute="width" constant="100" id="baX-8t-Lza"/>
+                                    <constraint firstAttribute="width" constant="150" id="baX-8t-Lza"/>
                                 </constraints>
-                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="M: 0" id="y7c-Ta-jzR">
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="M: 0    P: 0    D: 0" id="y7c-Ta-jzR">
                                     <font key="font" metaFont="smallSystem"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -127,6 +143,7 @@
             <connections>
                 <outlet property="countText" destination="Kjv-jx-McD" id="SNp-Bb-I5H"/>
                 <outlet property="imageView" destination="dNl-D8-10T" id="cQM-jc-AOL"/>
+                <outlet property="pauseBtn" destination="PAn-5R-2fm" id="tkb-FZ-urG"/>
                 <outlet property="sideBarView" destination="H24-wG-aLH" id="KDW-gV-wZF"/>
                 <outlet property="statusText" destination="PZz-MV-BlN" id="jbs-oZ-c27"/>
                 <outlet property="syncText" destination="Vr7-WZ-lNd" id="nkt-e6-8CV"/>

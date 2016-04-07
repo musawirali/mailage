@@ -9,6 +9,17 @@
 import Cocoa
 import WebKit
 import GTMOAuth2
+import RealmSwift
+
+class Message: Object {
+    dynamic var msgId = ""
+    dynamic var threadId = ""
+    dynamic var processed = false
+    
+    override static func indexedProperties() -> [String] {
+        return ["msgId"]
+    }
+}
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
@@ -29,10 +40,15 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     let loginMenuTitle = "Login"
     
     var message_queue = dispatch_queue_create("message_q", nil)
-    var msgCount = 0
+    var download_msg_queue = dispatch_queue_create("download_m_q", nil)
+    var download_att_queue = dispatch_queue_create("download_a_q", nil)
     
     var fetchedTill: NSDate?
     var sync_queue = dispatch_queue_create("sync_q", nil)
+    
+    var stats_update_queue = dispatch_queue_create("stats_q", nil)
+    
+    //var isPaused = false
 
     func applicationDidFinishLaunching(aNotification: NSNotification) {
         // Create menu
@@ -50,6 +66,15 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
         statusItem.menu = menu
         
+        // Grab last fetch date
+        let dateFormatter = NSDateFormatter()
+        dateFormatter.dateFormat = "yyyy/MM/dd"
+        let defaults = NSUserDefaults.standardUserDefaults()
+        if let fetch_date = defaults.stringForKey("fetched-till") {
+            self.fetchedTill = dateFormatter.dateFromString(fetch_date)
+        }
+        
+        // Check auth
         self.googleAuth = GTMOAuth2WindowController.authForGoogleFromKeychainForName(self.keychainToken, clientID: self.clientId, clientSecret: self.clientSecret)
         if (!self.googleAuth.canAuthorize) {
             self.loginMenuItem?.title = self.loginMenuTitle
@@ -58,7 +83,18 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             self.fetchProfile()
         }
         
+        // Open gallery
         self.onGalleryClick(self)
+    }
+    
+    func updateStats() {
+        dispatch_async(stats_update_queue) {
+            let realm = try! Realm()
+            let m = realm.objects(Message).count;
+            let p = realm.objects(Message).filter("processed = false").count
+            let d = realm.objects(Message).filter("processed = true").count
+            self.galleryWC?.countText.stringValue = "M: \(m)    P: \(p)    D:\(d)"
+        }
     }
     
     func fetchProfile() {
@@ -83,12 +119,37 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             dispatch_async(self.sync_queue) {
                 self.startGetMessages()
             }
+            // Start message download loop
+            dispatch_async(self.download_msg_queue, {
+                self.startDownloadMessages()
+            })
         })
+    }
+    
+    func startDownloadMessages() {
+        if !self.googleAuth.canAuthorize {
+            print("Cannot sync, not logged in. Exiting download msg queue")
+            return
+        }
+        
+        /*
+        if (self.isPaused) {
+            dispatch_async(self.download_msg_queue) {
+                sleep(10)
+                self.startDownloadMessages()
+            }
+            return
+        }*/
+        
+        let realm = try! Realm()
+        if let msg = realm.objects(Message).filter("processed = false").first {
+            self.getMessage(msg)
+        }
     }
     
     func startGetMessages() {
         if !self.googleAuth.canAuthorize {
-            print("Cannot sync, not logged in. Exiting queue")
+            print("Cannot sync, not logged in. Exiting get msg queue")
             return
         }
         
@@ -98,7 +159,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         let fetchDate = self.fetchedTill ?? NSDate(timeIntervalSince1970: 0)
         self.galleryWC?.syncText.stringValue = "Sync'ing messages from date: \(dateFormatter.stringFromDate(fetchDate))"
         
-        print("begin")
         self.getMessages(nil, fetchDate: fetchDate)
     }
     
@@ -120,23 +180,36 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 if let json = try? NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.AllowFragments) {
                     if let data = json as? Dictionary<String, AnyObject> {
                         if let messages = data["messages"] as? [Dictionary<String, AnyObject>] {
-//                            for message in messages {
-//                                //dispatch_async(self.message_queue, {
-//                                //    self.getMessage(message)
-//                                //})
-//                                print(message)
-//                            }
-                            self.msgCount += messages.count
-                            self.galleryWC?.countText.stringValue = "M: \(self.msgCount)"
+                            let realm = try? Realm()
+                            for message in messages {
+                                let msg_id = message["id"] as! String
+                                if let msgs = realm?.objects(Message).filter("msgId = '\(msg_id)'") {
+                                    if msgs.count < 1 {
+                                        let msg = Message()
+                                        msg.msgId = msg_id
+                                        
+                                        try! realm?.write({
+                                            realm?.add(msg)
+                                        })
+                                    }
+                                }
+                            }
                         }
+                        
+                        self.updateStats()
                         
                         if let nextPageToken = data["nextPageToken"] as? String {
                             dispatch_async(self.message_queue, {
                                 self.getMessages(nextPageToken, fetchDate: fetchDate)
                             })
                         } else {
-                            print("done")
                             self.fetchedTill = NSDate()
+                            let date_str = dateFormatter.stringFromDate(self.fetchedTill!)
+                            
+                            let defaults = NSUserDefaults.standardUserDefaults()
+                            defaults.setValue(date_str, forKey: "fetched-till")
+                            defaults.synchronize()
+                            
                             self.galleryWC?.syncText.stringValue = "Sync'ed"
                             
                             dispatch_async(self.sync_queue) {
@@ -150,9 +223,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         })
     }
     
-    func getMessage(msg: Dictionary<String, AnyObject>) {
-        let msg_id = msg["id"] as! String
-        
+    func getMessage(msg: Message) {
+        let msg_id = String(msg.msgId)
         let urlStr = "https://www.googleapis.com/gmail/v1/users/me/messages/\(msg_id)".stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())
         let req = NSMutableURLRequest(URL: NSURL(string: urlStr!)!);
         let fetcher = GTMSessionFetcher(request: req)
@@ -162,29 +234,45 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 if let json = try? NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.AllowFragments) {
                     if let data = json as? Dictionary<String, AnyObject> {
                         if let payload = data["payload"] as? Dictionary<String, AnyObject> {
-                            self.parseMessage(msg_id, msg: payload)
+                            self.parseMessage(msg_id, msg: payload, level: 0)
                         }
                     }
                 }
             }
-            dispatch_resume(self.message_queue)
         })
-        
-        dispatch_suspend(self.message_queue)
     }
     
-    func parseMessage(msg_id: String, msg: Dictionary<String, AnyObject>) {
+    func parseMessage(msg_id: String, msg: Dictionary<String, AnyObject>, level: Int) {
         let regexp = try? NSRegularExpression(pattern: "^image", options: NSRegularExpressionOptions.CaseInsensitive)
         let mimeType = msg["mimeType"] as! String
         if let matches = regexp?.matchesInString(mimeType, options: NSMatchingOptions.Anchored, range: NSMakeRange(0, (mimeType as NSString).length)) {
             if matches.count > 0 {
-                self.downloadPart(msg_id, part: msg)
+                dispatch_async(self.download_att_queue, {
+                    self.downloadPart(msg_id, part: msg)
+                })
             }
         }
         
         if let parts = msg["parts"] as? [Dictionary<String, AnyObject>] {
             for part in parts {
-                self.parseMessage(msg_id, msg: part)
+                self.parseMessage(msg_id, msg: part, level: level + 1)
+            }
+        }
+        
+        if (level == 0) {
+            dispatch_async(self.download_att_queue) {
+                let realm = try! Realm()
+                if let theMsg = realm.objects(Message).filter("msgId = '\(msg_id)'").first {
+                    try! realm.write({ 
+                        theMsg.processed = true
+                    })
+                }
+                
+                self.updateStats()
+                
+                dispatch_async(self.download_msg_queue, {
+                    self.startDownloadMessages()
+                })
             }
         }
     }
@@ -196,6 +284,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 let req = NSMutableURLRequest(URL: NSURL(string: urlStr!)!);
                 let fetcher = GTMSessionFetcher(request: req)
                 fetcher.authorizer = self.googleAuth
+                
+                dispatch_suspend(self.download_att_queue)
+
                 fetcher.beginFetchWithCompletionHandler({ (data, err) in
                     if let data = data {
                         if let json = try? NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions(rawValue: 0)) {
@@ -214,6 +305,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                             }
                         }
                     }
+                    
+                    dispatch_resume(self.download_att_queue)
                 })
             }
         }

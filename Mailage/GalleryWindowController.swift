@@ -16,8 +16,10 @@ class GalleryWindowController: NSWindowController {
     @IBOutlet weak var imageView: NSImageView!
     @IBOutlet weak var countText: NSTextField!
     
-    @IBOutlet weak var syncBtn: NSButton!
+    @IBOutlet weak var pauseBtn: NSButton!
     @IBOutlet weak var syncText: NSTextField!
+    
+    var isPaused = false
 
     class func CreateWC() -> GalleryWindowController? {
         
@@ -52,9 +54,16 @@ class GalleryWindowController: NSWindowController {
         }
     }
     
-    @IBAction func onSync(sender: AnyObject) {
+    @IBAction func pauseSync(sender: AnyObject) {
         if let appDelegate = NSApplication.sharedApplication().delegate as? AppDelegate {
-            appDelegate.startGetMessages()
+            if (self.isPaused) {
+                dispatch_resume(appDelegate.download_msg_queue)
+            } else {
+                dispatch_suspend(appDelegate.download_msg_queue)
+            }
+            self.isPaused = !self.isPaused
+            
+            self.pauseBtn.title = self.isPaused ? "Resume" : "Pause"
         }
     }
     
