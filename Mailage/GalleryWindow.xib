@@ -12,7 +12,7 @@
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="196" y="240" width="600" height="300"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1440" height="877"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1027"/>
             <value key="minSize" type="size" width="600" height="300"/>
             <view key="contentView" id="EiT-Mj-1SZ">
                 <rect key="frame" x="0.0" y="0.0" width="600" height="300"/>
@@ -48,6 +48,36 @@
                                 </constraints>
                                 <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="1L3-Lr-5Kj"/>
                             </imageView>
+                            <scrollView autohidesScrollers="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mIY-j6-OjZ">
+                                <rect key="frame" x="20" y="60" width="382" height="163"/>
+                                <clipView key="contentView" id="5az-nn-KPN">
+                                    <rect key="frame" x="1" y="1" width="380" height="161"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <subviews>
+                                        <collectionView selectable="YES" id="Ihu-1p-OKa">
+                                            <rect key="frame" x="0.0" y="0.0" width="380" height="161"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                            <collectionViewFlowLayout key="collectionViewLayout" minimumInteritemSpacing="10" minimumLineSpacing="10" id="c5f-5u-0Q6">
+                                                <size key="itemSize" width="100" height="100"/>
+                                            </collectionViewFlowLayout>
+                                            <color key="primaryBackgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                            <color key="secondaryBackgroundColor" name="controlAlternatingRowColor" catalog="System" colorSpace="catalog"/>
+                                            <connections>
+                                                <outlet property="dataSource" destination="Msj-jl-IG7" id="z7A-If-z6d"/>
+                                                <outlet property="delegate" destination="Msj-jl-IG7" id="wpT-KD-N3s"/>
+                                            </connections>
+                                        </collectionView>
+                                    </subviews>
+                                </clipView>
+                                <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="brH-C9-KLX">
+                                    <rect key="frame" x="1" y="144" width="233" height="15"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </scroller>
+                                <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="erI-VZ-qGW">
+                                    <rect key="frame" x="234" y="1" width="15" height="143"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </scroller>
+                            </scrollView>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Vr7-WZ-lNd">
                                 <rect key="frame" x="18" y="231" width="386" height="17"/>
                                 <constraints>
@@ -73,13 +103,33 @@
                                     <action selector="pauseSync:" target="Msj-jl-IG7" id="LUo-nR-unM"/>
                                 </connections>
                             </button>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="4EH-pq-g8T">
+                                <rect key="frame" x="95" y="13" width="81" height="32"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="69" id="HwV-8O-h9L"/>
+                                    <constraint firstAttribute="height" constant="21" id="yYY-hf-e3x"/>
+                                </constraints>
+                                <buttonCell key="cell" type="push" title="Clear" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Phd-Nh-Hd3">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="clearEverything:" target="Msj-jl-IG7" id="XaS-Gg-HoD"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <constraints>
                             <constraint firstItem="dNl-D8-10T" firstAttribute="centerY" secondItem="PN7-Qw-RHi" secondAttribute="centerY" id="095-FV-FgS"/>
+                            <constraint firstItem="mIY-j6-OjZ" firstAttribute="leading" secondItem="PN7-Qw-RHi" secondAttribute="leading" constant="20" id="6w9-6T-ih8"/>
                             <constraint firstAttribute="bottom" secondItem="PAn-5R-2fm" secondAttribute="bottom" constant="20" id="Coc-AK-jie"/>
+                            <constraint firstAttribute="trailing" secondItem="mIY-j6-OjZ" secondAttribute="trailing" constant="20" id="J0P-kK-fAT"/>
                             <constraint firstItem="Vr7-WZ-lNd" firstAttribute="leading" secondItem="PN7-Qw-RHi" secondAttribute="leading" constant="20" id="RLS-4a-Lvh"/>
                             <constraint firstAttribute="trailing" secondItem="Vr7-WZ-lNd" secondAttribute="trailing" constant="20" id="TBP-cz-Hp9"/>
+                            <constraint firstItem="mIY-j6-OjZ" firstAttribute="top" secondItem="Vr7-WZ-lNd" secondAttribute="bottom" constant="8" id="egA-vN-Gim"/>
+                            <constraint firstItem="4EH-pq-g8T" firstAttribute="leading" secondItem="PAn-5R-2fm" secondAttribute="trailing" constant="12" id="f4v-tv-NCO"/>
+                            <constraint firstItem="PAn-5R-2fm" firstAttribute="top" secondItem="mIY-j6-OjZ" secondAttribute="bottom" constant="19" id="kiY-PJ-Ugb"/>
                             <constraint firstItem="PAn-5R-2fm" firstAttribute="leading" secondItem="PN7-Qw-RHi" secondAttribute="leading" constant="20" id="lpc-Aw-Aiu"/>
+                            <constraint firstAttribute="bottom" secondItem="4EH-pq-g8T" secondAttribute="bottom" constant="20" id="mGv-cx-v17"/>
                             <constraint firstItem="dNl-D8-10T" firstAttribute="centerX" secondItem="PN7-Qw-RHi" secondAttribute="centerX" id="mUs-Te-8pw"/>
                             <constraint firstItem="Vr7-WZ-lNd" firstAttribute="top" secondItem="PN7-Qw-RHi" secondAttribute="top" constant="22" id="xdY-XQ-x1V"/>
                         </constraints>
@@ -141,6 +191,7 @@
         </window>
         <customObject id="Msj-jl-IG7" customClass="GalleryWindowController" customModule="Mailage" customModuleProvider="target">
             <connections>
+                <outlet property="collectionView" destination="Ihu-1p-OKa" id="XaF-ud-RY4"/>
                 <outlet property="countText" destination="Kjv-jx-McD" id="SNp-Bb-I5H"/>
                 <outlet property="imageView" destination="dNl-D8-10T" id="cQM-jc-AOL"/>
                 <outlet property="pauseBtn" destination="PAn-5R-2fm" id="tkb-FZ-urG"/>

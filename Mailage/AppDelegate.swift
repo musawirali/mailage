@@ -10,6 +10,7 @@ import Cocoa
 import WebKit
 import GTMOAuth2
 import RealmSwift
+import CryptoSwift
 
 class Message: Object {
     dynamic var msgId = ""
@@ -18,6 +19,14 @@ class Message: Object {
     
     override static func indexedProperties() -> [String] {
         return ["msgId"]
+    }
+}
+
+class Attachment: Object {
+    dynamic var imgId = ""
+    
+    override static func indexedProperties() -> [String] {
+        return ["imgId"]
     }
 }
 
@@ -42,15 +51,23 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     var message_queue = dispatch_queue_create("message_q", nil)
     var download_msg_queue = dispatch_queue_create("download_m_q", nil)
     var download_att_queue = dispatch_queue_create("download_a_q", nil)
+    var image_queue = dispatch_queue_create("image_q", nil)
     
     var fetchedTill: NSDate?
     var sync_queue = dispatch_queue_create("sync_q", nil)
     
     var stats_update_queue = dispatch_queue_create("stats_q", nil)
     
-    //var isPaused = false
+    var images = Array<NSImage>()
 
     func applicationDidFinishLaunching(aNotification: NSNotification) {
+        
+        let fm = NSFileManager.defaultManager()
+        let urls = fm.URLsForDirectory(NSSearchPathDirectory.PicturesDirectory, inDomains: NSSearchPathDomainMask.UserDomainMask)
+        for url in urls {
+            print(url.URLByAppendingPathComponent("mailage").absoluteString)
+        }
+        
         // Create menu
         if let button = statusItem.button {
             button.image = NSImage(named: "StatusBarButtonImage")
@@ -292,15 +309,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                         if let json = try? NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions(rawValue: 0)) {
                             if let data = json as? Dictionary<String, AnyObject> {
                                 if let img_data = data["data"] as? String {
-                                    
-                                    let newstr = img_data.stringByReplacingOccurrencesOfString("_", withString: "/", options: NSStringCompareOptions.CaseInsensitiveSearch, range: nil)
-                                    let newstr2 = newstr.stringByReplacingOccurrencesOfString("-", withString: "+", options: NSStringCompareOptions.CaseInsensitiveSearch, range: nil)
-                                    
-                                    if let ns_data = NSData(base64EncodedString: newstr2, options: NSDataBase64DecodingOptions.IgnoreUnknownCharacters) {
-                                        if let img = NSImage(data: ns_data) {
-                                            self.galleryWC?.imageView.image = img
-                                        }
-                                    }
+                                    dispatch_async(self.image_queue, {
+                                        self.processImage(img_data)
+                                    })
                                 }
                             }
                         }
@@ -310,6 +321,38 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 })
             }
         }
+    }
+    
+    func processImage(img_data: String) {
+        let md5 = img_data.md5()
+        
+        let realm = try! Realm()
+        if realm.objects(Attachment).filter("imgId = '\(md5)'").count > 0 {
+            return
+        }
+        
+        let newstr = img_data.stringByReplacingOccurrencesOfString("_", withString: "/", options: NSStringCompareOptions.CaseInsensitiveSearch, range: nil)
+        let newstr2 = newstr.stringByReplacingOccurrencesOfString("-", withString: "+", options: NSStringCompareOptions.CaseInsensitiveSearch, range: nil)
+        
+        if let ns_data = NSData(base64EncodedString: newstr2, options: NSDataBase64DecodingOptions.IgnoreUnknownCharacters) {
+            if let img = NSImage(data: ns_data) {
+                //self.galleryWC?.imageView.image = img
+                self.images.append(img)
+                var set = Set<NSIndexPath>()
+                set.insert(NSIndexPath(forItem: self.images.count - 1, inSection: 0))
+                
+                dispatch_async(dispatch_get_main_queue(), { 
+                    self.galleryWC?.collectionView.insertItemsAtIndexPaths(set)
+                })
+            }
+        }
+        
+        let attachment = Attachment()
+        attachment.imgId = md5
+        
+        try! realm.write({
+            realm.add(attachment)
+        })
     }
 
     func onQuitClick(sender: AnyObject) {

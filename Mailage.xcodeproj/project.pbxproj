@@ -13,6 +13,7 @@
 		F39C5CD71CAF3DE700919F29 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F39C5CD61CAF3DE700919F29 /* AppDelegate.swift */; };
 		F39C5CD91CAF3DE700919F29 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F39C5CD81CAF3DE700919F29 /* Assets.xcassets */; };
 		F39C5CDC1CAF3DE700919F29 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = F39C5CDA1CAF3DE700919F29 /* MainMenu.xib */; };
+		F3F3CF7A1CB63C8300339EAE /* ImageCollectionViewItem.xib in Resources */ = {isa = PBXBuildFile; fileRef = F3F3CF791CB63C8300339EAE /* ImageCollectionViewItem.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +27,7 @@
 		F39C5CD81CAF3DE700919F29 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F39C5CDB1CAF3DE700919F29 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		F39C5CDD1CAF3DE700919F29 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F3F3CF791CB63C8300339EAE /* ImageCollectionViewItem.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ImageCollectionViewItem.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -84,6 +86,7 @@
 				F39C5CDD1CAF3DE700919F29 /* Info.plist */,
 				F38EA3A81CB1D14A009436CB /* GalleryWindow.xib */,
 				F38EA3AA1CB1D188009436CB /* GalleryWindowController.swift */,
+				F3F3CF791CB63C8300339EAE /* ImageCollectionViewItem.xib */,
 			);
 			path = Mailage;
 			sourceTree = "<group>";
@@ -150,6 +153,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F39C5CD91CAF3DE700919F29 /* Assets.xcassets in Resources */,
+				F3F3CF7A1CB63C8300339EAE /* ImageCollectionViewItem.xib in Resources */,
 				F38EA3A91CB1D14A009436CB /* GalleryWindow.xib in Resources */,
 				F39C5CDC1CAF3DE700919F29 /* MainMenu.xib in Resources */,
 			);

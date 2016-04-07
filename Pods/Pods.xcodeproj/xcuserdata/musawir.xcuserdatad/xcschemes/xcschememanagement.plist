@@ -4,6 +4,11 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
+		<key>CryptoSwift.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>GTMOAuth2.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -32,7 +37,7 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>42860A3D598528F6420ACCFDFABB9FEB</key>
+		<key>36ED46D51426DB40473E1286BE471AA5</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -42,17 +47,22 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>9E110A16662C500D1C6403F816115100</key>
+		<key>703867F433CD1F3BD8486E8F8316FE72</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>ADC77EE9C7185BFAD2C6F58AD0354433</key>
+		<key>C6748CC6479B6C478C9EC97CD68D9188</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
 		<key>D468777BEC2DE5127A16239373FFD11F</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>E53A0EDE10B8ECF7496B295E2673EF86</key>
 		<dict>
 			<key>primary</key>
 			<true/>
