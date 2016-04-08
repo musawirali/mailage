@@ -61,6 +61,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     var stats_update_queue = dispatch_queue_create("stats_q", nil)
     
+    var isPaused = false
     var images = Array<NSImage>()
 
     func applicationDidFinishLaunching(aNotification: NSNotification) {
@@ -193,7 +194,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         dateFormatter.dateFormat = "yyyy/MM/dd"
         
         let fetchDate = self.fetchedTill ?? NSDate(timeIntervalSince1970: 0)
-        //self.galleryWC?.syncText.stringValue = "Sync'ing messages from date: \(dateFormatter.stringFromDate(fetchDate))"
         self.getMessages(nil, fetchDate: fetchDate)
     }
     
@@ -323,19 +323,25 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 dispatch_suspend(self.download_att_queue)
 
                 fetcher.beginFetchWithCompletionHandler({ (data, err) in
+                    var img_processed = false
                     if let data = data {
                         if let json = try? NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions(rawValue: 0)) {
                             if let data = json as? Dictionary<String, AnyObject> {
                                 if let img_data = data["data"] as? String {
+                                    img_processed = true
                                     dispatch_async(self.image_queue, {
                                         self.processImage(img_data)
+                                        
+                                        dispatch_resume(self.download_att_queue)
                                     })
                                 }
                             }
                         }
                     }
                     
-                    dispatch_resume(self.download_att_queue)
+                    if !img_processed {
+                        dispatch_resume(self.download_att_queue)
+                    }
                 })
             }
         }
@@ -404,12 +410,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     func onGalleryClick(sender: AnyObject) {
-        /*if (self.galleryWC == nil) {
-            self.galleryWC = GalleryWindowController.CreateWC()
-        }
-        self.galleryWC?.showWindow(sender)*/
         if let wc = NSStoryboard(name: "Main", bundle: NSBundle.mainBundle()).instantiateInitialController() as? NSWindowController {
             self.appWC = wc
+            self.appWC?.window?.titleVisibility = .Hidden
             self.fetchProfile()
         }
         

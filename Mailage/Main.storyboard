@@ -8,15 +8,57 @@
         <!--Window Controller-->
         <scene sceneID="DiT-H4-Ba7">
             <objects>
-                <windowController storyboardIdentifier="AppWindowController" id="ag3-ZZ-kh3" sceneMemberID="viewController">
+                <windowController storyboardIdentifier="AppWindowController" id="ag3-ZZ-kh3" customClass="AppWindowController" customModule="Mailage" customModuleProvider="target" sceneMemberID="viewController">
                     <window key="window" title="Mailage" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="O9x-Kh-Nst">
-                        <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
+                        <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES" unifiedTitleAndToolbar="YES"/>
                         <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
                         <rect key="contentRect" x="196" y="240" width="600" height="270"/>
                         <rect key="screenRect" x="0.0" y="0.0" width="1440" height="877"/>
                         <value key="minSize" type="size" width="600" height="270"/>
+                        <toolbar key="toolbar" implicitIdentifier="F588B156-36C9-41AF-A29D-2365CF0E8B30" autosavesConfiguration="NO" displayMode="iconAndLabel" sizeMode="regular" id="92M-mS-aLg">
+                            <allowedToolbarItems>
+                                <toolbarItem implicitItemIdentifier="51633475-7B18-4FF3-A01F-30C817068A47" label="Custom View" paletteLabel="Custom View" id="bSi-3c-wfz">
+                                    <nil key="toolTip"/>
+                                    <size key="minSize" width="82" height="32"/>
+                                    <size key="maxSize" width="82" height="32"/>
+                                    <button key="view" verticalHuggingPriority="750" id="6An-Pu-unw">
+                                        <rect key="frame" x="0.0" y="14" width="82" height="32"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <buttonCell key="cell" type="push" title="Clear" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="ccN-LQ-FWt">
+                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                            <font key="font" metaFont="system"/>
+                                        </buttonCell>
+                                        <connections>
+                                            <action selector="onClear:" target="ag3-ZZ-kh3" id="efK-Rg-Wm8"/>
+                                        </connections>
+                                    </button>
+                                </toolbarItem>
+                                <toolbarItem implicitItemIdentifier="3543FCC9-460D-42E8-BD34-BECD2F09FC31" label="Custom View" paletteLabel="Custom View" id="HPV-Ja-feu">
+                                    <nil key="toolTip"/>
+                                    <size key="minSize" width="82" height="32"/>
+                                    <size key="maxSize" width="82" height="32"/>
+                                    <button key="view" verticalHuggingPriority="750" id="WPk-Bg-O79">
+                                        <rect key="frame" x="0.0" y="14" width="82" height="32"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <buttonCell key="cell" type="push" title="Pause" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="bYm-ZD-1UQ">
+                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                            <font key="font" metaFont="system"/>
+                                        </buttonCell>
+                                        <connections>
+                                            <action selector="onPause:" target="ag3-ZZ-kh3" id="6Kx-Wq-6wj"/>
+                                        </connections>
+                                    </button>
+                                </toolbarItem>
+                            </allowedToolbarItems>
+                            <defaultToolbarItems>
+                                <toolbarItem reference="HPV-Ja-feu"/>
+                                <toolbarItem reference="bSi-3c-wfz"/>
+                            </defaultToolbarItems>
+                        </toolbar>
                     </window>
                     <connections>
+                        <outlet property="clearBtn" destination="6An-Pu-unw" id="Puv-IL-qjG"/>
+                        <outlet property="pauseBtn" destination="WPk-Bg-O79" id="TEB-hz-6it"/>
                         <segue destination="4GY-CF-XIB" kind="relationship" relationship="window.shadowedContentViewController" id="ZAk-tw-52z"/>
                     </connections>
                 </windowController>

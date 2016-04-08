@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		5A11B5FBA111D1CAE372D118 /* Pods_Mailage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BDA94FEDDD5A621FC3D3DACB /* Pods_Mailage.framework */; };
+		F352145E1CB786CE00591293 /* AppWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F352145D1CB786CE00591293 /* AppWindowController.swift */; };
 		F384810A1CB73A82005E95E3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F38481091CB73A82005E95E3 /* Main.storyboard */; };
 		F384810C1CB73B26005E95E3 /* AppViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F384810B1CB73B26005E95E3 /* AppViewController.swift */; };
 		F384810E1CB754C1005E95E3 /* CollectionViewItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = F384810D1CB754C1005E95E3 /* CollectionViewItem.swift */; };
@@ -23,6 +24,7 @@
 		6BFA1C221CC872002F778A7C /* Pods-Mailage.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Mailage.release.xcconfig"; path = "Pods/Target Support Files/Pods-Mailage/Pods-Mailage.release.xcconfig"; sourceTree = "<group>"; };
 		AE3806BF29F0C6D929C7F652 /* Pods-Mailage.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Mailage.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Mailage/Pods-Mailage.debug.xcconfig"; sourceTree = "<group>"; };
 		BDA94FEDDD5A621FC3D3DACB /* Pods_Mailage.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Mailage.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F352145D1CB786CE00591293 /* AppWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppWindowController.swift; sourceTree = "<group>"; };
 		F38481091CB73A82005E95E3 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		F384810B1CB73B26005E95E3 /* AppViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppViewController.swift; sourceTree = "<group>"; };
 		F384810D1CB754C1005E95E3 /* CollectionViewItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewItem.swift; sourceTree = "<group>"; };
@@ -96,6 +98,7 @@
 				F38481091CB73A82005E95E3 /* Main.storyboard */,
 				F384810B1CB73B26005E95E3 /* AppViewController.swift */,
 				F384810D1CB754C1005E95E3 /* CollectionViewItem.swift */,
+				F352145D1CB786CE00591293 /* AppWindowController.swift */,
 			);
 			path = Mailage;
 			sourceTree = "<group>";
@@ -227,6 +230,7 @@
 				F384810C1CB73B26005E95E3 /* AppViewController.swift in Sources */,
 				F384810E1CB754C1005E95E3 /* CollectionViewItem.swift in Sources */,
 				F38EA3AB1CB1D188009436CB /* GalleryWindowController.swift in Sources */,
+				F352145E1CB786CE00591293 /* AppWindowController.swift in Sources */,
 				F39C5CD71CAF3DE700919F29 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
