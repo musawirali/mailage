@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15D21" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="ag3-ZZ-kh3">
+    <dependencies>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="10116"/>
+    </dependencies>
+    <scenes>
+        <!--Window Controller-->
+        <scene sceneID="DiT-H4-Ba7">
+            <objects>
+                <windowController storyboardIdentifier="AppWindowController" id="ag3-ZZ-kh3" sceneMemberID="viewController">
+                    <window key="window" title="Mailage" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="O9x-Kh-Nst">
+                        <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
+                        <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
+                        <rect key="contentRect" x="196" y="240" width="600" height="270"/>
+                        <rect key="screenRect" x="0.0" y="0.0" width="1440" height="877"/>
+                        <value key="minSize" type="size" width="600" height="270"/>
+                    </window>
+                    <connections>
+                        <segue destination="4GY-CF-XIB" kind="relationship" relationship="window.shadowedContentViewController" id="ZAk-tw-52z"/>
+                    </connections>
+                </windowController>
+                <customObject id="21s-B0-65Y" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="854" y="215"/>
+        </scene>
+        <!--App View Controller-->
+        <scene sceneID="Msh-JT-lxa">
+            <objects>
+                <viewController id="4GY-CF-XIB" customClass="AppViewController" customModule="Mailage" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" id="l7p-Fi-Hbx">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="270"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <progressIndicator wantsLayer="YES" maxValue="100" style="bar" translatesAutoresizingMaskIntoConstraints="NO" id="er8-O7-6FI">
+                                <rect key="frame" x="15" y="9" width="262" height="20"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="262" id="MrV-bk-hxb"/>
+                                    <constraint firstAttribute="height" constant="18" id="RY8-ZL-dHb"/>
+                                </constraints>
+                            </progressIndicator>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="tDx-aN-PEy">
+                                <rect key="frame" x="283" y="12" width="54" height="15"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="15" id="0PL-TE-1gx"/>
+                                    <constraint firstAttribute="width" constant="50" id="GIf-Dn-QEs"/>
+                                </constraints>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" id="zax-0S-qgN">
+                                    <font key="font" metaFont="smallSystem"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="2t1-7h-ikf">
+                                <rect key="frame" x="353" y="12" width="229" height="15"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="15" id="enA-2c-Q2d"/>
+                                </constraints>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Not logged in" id="8Q4-ZS-GLF">
+                                    <font key="font" metaFont="smallSystem"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <scrollView autohidesScrollers="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="K7f-vw-EIt">
+                                <rect key="frame" x="15" y="36" width="565" height="214"/>
+                                <clipView key="contentView" id="QwG-zt-qEK">
+                                    <rect key="frame" x="1" y="1" width="563" height="212"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <subviews>
+                                        <collectionView id="hPL-ya-v0D">
+                                            <rect key="frame" x="0.0" y="0.0" width="563" height="212"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                            <collectionViewFlowLayout key="collectionViewLayout" minimumInteritemSpacing="10" minimumLineSpacing="10" id="3yJ-pj-6DS">
+                                                <size key="itemSize" width="150" height="150"/>
+                                            </collectionViewFlowLayout>
+                                            <color key="primaryBackgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                            <connections>
+                                                <outlet property="dataSource" destination="4GY-CF-XIB" id="0re-D0-VgZ"/>
+                                            </connections>
+                                        </collectionView>
+                                    </subviews>
+                                </clipView>
+                                <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="Z4k-ee-aKl">
+                                    <rect key="frame" x="1" y="144" width="233" height="15"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </scroller>
+                                <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="8hV-n1-xj7">
+                                    <rect key="frame" x="234" y="1" width="15" height="143"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </scroller>
+                            </scrollView>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="tDx-aN-PEy" firstAttribute="leading" secondItem="er8-O7-6FI" secondAttribute="trailing" constant="8" id="AFz-OP-tax"/>
+                            <constraint firstItem="K7f-vw-EIt" firstAttribute="leading" secondItem="l7p-Fi-Hbx" secondAttribute="leading" constant="15" id="E1r-Sd-qGZ"/>
+                            <constraint firstItem="K7f-vw-EIt" firstAttribute="top" secondItem="l7p-Fi-Hbx" secondAttribute="top" constant="20" id="Gpp-Tm-tkm"/>
+                            <constraint firstAttribute="trailing" secondItem="2t1-7h-ikf" secondAttribute="trailing" constant="20" id="J01-c4-BId"/>
+                            <constraint firstItem="2t1-7h-ikf" firstAttribute="centerY" secondItem="tDx-aN-PEy" secondAttribute="centerY" id="MW2-zT-K5O"/>
+                            <constraint firstAttribute="trailing" secondItem="K7f-vw-EIt" secondAttribute="trailing" constant="20" id="Mxs-ni-Jci"/>
+                            <constraint firstItem="tDx-aN-PEy" firstAttribute="centerY" secondItem="er8-O7-6FI" secondAttribute="centerY" id="ZGO-k1-xyB"/>
+                            <constraint firstItem="er8-O7-6FI" firstAttribute="leading" secondItem="l7p-Fi-Hbx" secondAttribute="leading" constant="15" id="dnI-eU-EjP"/>
+                            <constraint firstItem="er8-O7-6FI" firstAttribute="top" secondItem="K7f-vw-EIt" secondAttribute="bottom" constant="8" id="eVO-7F-pgT"/>
+                            <constraint firstItem="2t1-7h-ikf" firstAttribute="leading" secondItem="tDx-aN-PEy" secondAttribute="trailing" constant="20" id="iH1-p1-n77"/>
+                            <constraint firstAttribute="bottom" secondItem="er8-O7-6FI" secondAttribute="bottom" constant="10" id="kkr-9J-kgf"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="collectionView" destination="hPL-ya-v0D" id="pXv-TK-Nfi"/>
+                        <outlet property="msgCountLabel" destination="tDx-aN-PEy" id="eNP-bW-ceX"/>
+                        <outlet property="progressBar" destination="er8-O7-6FI" id="LbB-NK-mJ2"/>
+                        <outlet property="userEmailLabel" destination="2t1-7h-ikf" id="HcS-Fy-s9d"/>
+                    </connections>
+                </viewController>
+                <customObject id="5YM-EO-Vdy" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="854" y="695"/>
+        </scene>
+        <!--Collection View Item-->
+        <scene sceneID="psp-b6-oTO">
+            <objects>
+                <collectionViewItem identifier="CollectionViewItem" storyboardIdentifier="CollectionViewItem" id="ADX-pI-vQH" customClass="CollectionViewItem" customModule="Mailage" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" id="9pU-Z1-ZjH">
+                        <rect key="frame" x="0.0" y="0.0" width="150" height="150"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="H1D-Rq-ZhJ">
+                                <rect key="frame" x="0.0" y="0.0" width="150" height="150"/>
+                                <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="p0t-5Z-P2Y"/>
+                            </imageView>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="H1D-Rq-ZhJ" firstAttribute="leading" secondItem="9pU-Z1-ZjH" secondAttribute="leading" id="7yx-ux-kB0"/>
+                            <constraint firstAttribute="trailing" secondItem="H1D-Rq-ZhJ" secondAttribute="trailing" id="KPa-LZ-vkY"/>
+                            <constraint firstAttribute="bottom" secondItem="H1D-Rq-ZhJ" secondAttribute="bottom" id="Yyd-2K-Bqp"/>
+                            <constraint firstItem="H1D-Rq-ZhJ" firstAttribute="top" secondItem="9pU-Z1-ZjH" secondAttribute="top" id="pHY-cz-ZwH"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="pictureView" destination="H1D-Rq-ZhJ" id="EV9-0e-gca"/>
+                    </connections>
+                </collectionViewItem>
+                <customObject id="MqG-4e-Hcx" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="854" y="1110"/>
+        </scene>
+    </scenes>
+</document>

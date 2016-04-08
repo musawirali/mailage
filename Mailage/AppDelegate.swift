@@ -34,6 +34,9 @@ class Attachment: Object {
 class AppDelegate: NSObject, NSApplicationDelegate {
 
     @IBOutlet weak var window: NSWindow!
+    
+    var appWC: NSWindowController?
+    
     var loginWC: GTMOAuth2WindowController?
     var galleryWC: GalleryWindowController?
     var googleAuth: GTMOAuth2Authentication! = nil
@@ -97,7 +100,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             self.loginMenuItem?.title = self.loginMenuTitle
         } else {
             self.loginMenuItem?.title = "Logout"
-            self.fetchProfile()
         }
         
         // Open gallery
@@ -109,15 +111,40 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             let realm = try! Realm()
             let m = realm.objects(Message).count;
             let p = realm.objects(Message).filter("processed = false").count
-            let d = realm.objects(Message).filter("processed = true").count
-            self.galleryWC?.countText.stringValue = "M: \(m)    P: \(p)    D:\(d)"
+            //let d = realm.objects(Message).filter("processed = true").count
+            //self.galleryWC?.countText.stringValue = "M: \(m)    P: \(p)    D:\(d)"
+            if let vc = self.appWC?.contentViewController as? AppViewController {
+                dispatch_async(dispatch_get_main_queue(), { 
+                    vc.progressBar.minValue = 0
+                    vc.progressBar.maxValue = Double(m)
+                    vc.progressBar.doubleValue = Double(m - p)
+                    vc.msgCountLabel.stringValue = "\(m - p)/\(m)"
+                })
+            }
+        }
+    }
+    
+    func updateProfile() {
+        var emailStr = "Not logged in"
+        if let profile = self.userProfile {
+            if let email = profile["emailAddress"] as? String {
+                emailStr = email
+            } else {
+                emailStr = "Email address unavailable"
+            }
+        }
+        
+        if let vc = self.appWC?.contentViewController as? AppViewController {
+            dispatch_async(dispatch_get_main_queue(), {
+                vc.userEmailLabel.stringValue = emailStr
+            });
         }
     }
     
     func fetchProfile() {
         if !self.googleAuth.canAuthorize {
             self.userProfile = nil
-            self.galleryWC?.updateStatus(self.userProfile)
+            self.updateProfile()
             return
         }
 
@@ -128,7 +155,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             if let data = data {
                 if let json = try? NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.AllowFragments) {
                     self.userProfile = json as? Dictionary<String, AnyObject>
-                    self.galleryWC?.updateStatus(self.userProfile)
+                    self.updateProfile()
                 }
             }
             
@@ -136,6 +163,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             dispatch_async(self.sync_queue) {
                 self.startGetMessages()
             }
+            
             // Start message download loop
             dispatch_async(self.download_msg_queue, {
                 self.startDownloadMessages()
@@ -148,15 +176,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             print("Cannot sync, not logged in. Exiting download msg queue")
             return
         }
-        
-        /*
-        if (self.isPaused) {
-            dispatch_async(self.download_msg_queue) {
-                sleep(10)
-                self.startDownloadMessages()
-            }
-            return
-        }*/
         
         let realm = try! Realm()
         if let msg = realm.objects(Message).filter("processed = false").first {
@@ -174,8 +193,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         dateFormatter.dateFormat = "yyyy/MM/dd"
         
         let fetchDate = self.fetchedTill ?? NSDate(timeIntervalSince1970: 0)
-        self.galleryWC?.syncText.stringValue = "Sync'ing messages from date: \(dateFormatter.stringFromDate(fetchDate))"
-        
+        //self.galleryWC?.syncText.stringValue = "Sync'ing messages from date: \(dateFormatter.stringFromDate(fetchDate))"
         self.getMessages(nil, fetchDate: fetchDate)
     }
     
@@ -227,7 +245,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                             defaults.setValue(date_str, forKey: "fetched-till")
                             defaults.synchronize()
                             
-                            self.galleryWC?.syncText.stringValue = "Sync'ed"
+                            //self.galleryWC?.syncText.stringValue = "Sync'ed"
                             
                             dispatch_async(self.sync_queue) {
                                 sleep(10)
@@ -336,13 +354,14 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         
         if let ns_data = NSData(base64EncodedString: newstr2, options: NSDataBase64DecodingOptions.IgnoreUnknownCharacters) {
             if let img = NSImage(data: ns_data) {
-                //self.galleryWC?.imageView.image = img
                 self.images.append(img)
                 var set = Set<NSIndexPath>()
                 set.insert(NSIndexPath(forItem: self.images.count - 1, inSection: 0))
                 
-                dispatch_async(dispatch_get_main_queue(), { 
-                    self.galleryWC?.collectionView.insertItemsAtIndexPaths(set)
+                dispatch_async(dispatch_get_main_queue(), {
+                    if let vc = self.appWC?.contentViewController as? AppViewController {
+                        vc.collectionView.insertItemsAtIndexPaths(set)
+                    }
                 })
             }
         }
@@ -379,20 +398,22 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
         self.loginWC?.signInSheetModalForWindow(nil, completionHandler: { (auth, err) in
             self.googleAuth = auth
-            if (self.googleAuth.canAuthorize) {
-                self.fetchProfile()
-            } else {
-                print("not authorized")
-            }
+            self.fetchProfile()
         })
         NSApplication.sharedApplication().activateIgnoringOtherApps(true)
     }
 
     func onGalleryClick(sender: AnyObject) {
-        if (self.galleryWC == nil) {
+        /*if (self.galleryWC == nil) {
             self.galleryWC = GalleryWindowController.CreateWC()
         }
-        self.galleryWC?.showWindow(sender)
+        self.galleryWC?.showWindow(sender)*/
+        if let wc = NSStoryboard(name: "Main", bundle: NSBundle.mainBundle()).instantiateInitialController() as? NSWindowController {
+            self.appWC = wc
+            self.fetchProfile()
+        }
+        
+        self.appWC?.showWindow(nil)
         NSApplication.sharedApplication().activateIgnoringOtherApps(true)
     }
 
