@@ -5,4 +5,5 @@ target 'Mailage' do
   pod 'GTMOAuth2'
   pod 'RealmSwift'
   pod 'CryptoSwift'
+  pod 'PromiseKit'
 end

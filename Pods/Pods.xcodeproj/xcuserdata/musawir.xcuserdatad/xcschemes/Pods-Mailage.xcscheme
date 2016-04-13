@@ -14,7 +14,7 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = 'F52B14043369545E3DFACB1C'
+               BlueprintIdentifier = '9A87250B078CF99BA1131F56'
                BlueprintName = 'Pods-Mailage'
                ReferencedContainer = 'container:Pods.xcodeproj'
                BuildableName = 'Pods_Mailage.framework'>

@@ -426,6 +426,14 @@ Permission is granted to anyone to use this software for any purpose,including c
    limitations under the License.
 
 
+## OMGHTTPURLRQ
+
+See README.markdown for full license text.
+
+## PromiseKit
+
+@see README
+
 ## Realm
 
 TABLE OF CONTENTS

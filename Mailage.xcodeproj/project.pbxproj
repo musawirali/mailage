@@ -11,9 +11,6 @@
 		F352145E1CB786CE00591293 /* AppWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F352145D1CB786CE00591293 /* AppWindowController.swift */; };
 		F384810A1CB73A82005E95E3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F38481091CB73A82005E95E3 /* Main.storyboard */; };
 		F384810C1CB73B26005E95E3 /* AppViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F384810B1CB73B26005E95E3 /* AppViewController.swift */; };
-		F384810E1CB754C1005E95E3 /* CollectionViewItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = F384810D1CB754C1005E95E3 /* CollectionViewItem.swift */; };
-		F38EA3A91CB1D14A009436CB /* GalleryWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = F38EA3A81CB1D14A009436CB /* GalleryWindow.xib */; };
-		F38EA3AB1CB1D188009436CB /* GalleryWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F38EA3AA1CB1D188009436CB /* GalleryWindowController.swift */; };
 		F39C5CD71CAF3DE700919F29 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F39C5CD61CAF3DE700919F29 /* AppDelegate.swift */; };
 		F39C5CD91CAF3DE700919F29 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F39C5CD81CAF3DE700919F29 /* Assets.xcassets */; };
 		F39C5CDC1CAF3DE700919F29 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = F39C5CDA1CAF3DE700919F29 /* MainMenu.xib */; };
@@ -27,9 +24,6 @@
 		F352145D1CB786CE00591293 /* AppWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppWindowController.swift; sourceTree = "<group>"; };
 		F38481091CB73A82005E95E3 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		F384810B1CB73B26005E95E3 /* AppViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppViewController.swift; sourceTree = "<group>"; };
-		F384810D1CB754C1005E95E3 /* CollectionViewItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewItem.swift; sourceTree = "<group>"; };
-		F38EA3A81CB1D14A009436CB /* GalleryWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GalleryWindow.xib; sourceTree = "<group>"; };
-		F38EA3AA1CB1D188009436CB /* GalleryWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GalleryWindowController.swift; sourceTree = "<group>"; };
 		F39C5CD31CAF3DE700919F29 /* Mailage.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Mailage.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F39C5CD61CAF3DE700919F29 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F39C5CD81CAF3DE700919F29 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -89,16 +83,13 @@
 			isa = PBXGroup;
 			children = (
 				F39C5CD61CAF3DE700919F29 /* AppDelegate.swift */,
-				F39C5CD81CAF3DE700919F29 /* Assets.xcassets */,
-				F39C5CDA1CAF3DE700919F29 /* MainMenu.xib */,
-				F39C5CDD1CAF3DE700919F29 /* Info.plist */,
-				F38EA3A81CB1D14A009436CB /* GalleryWindow.xib */,
-				F38EA3AA1CB1D188009436CB /* GalleryWindowController.swift */,
-				F3F3CF791CB63C8300339EAE /* ImageCollectionViewItem.xib */,
-				F38481091CB73A82005E95E3 /* Main.storyboard */,
-				F384810B1CB73B26005E95E3 /* AppViewController.swift */,
-				F384810D1CB754C1005E95E3 /* CollectionViewItem.swift */,
 				F352145D1CB786CE00591293 /* AppWindowController.swift */,
+				F384810B1CB73B26005E95E3 /* AppViewController.swift */,
+				F39C5CD81CAF3DE700919F29 /* Assets.xcassets */,
+				F38481091CB73A82005E95E3 /* Main.storyboard */,
+				F39C5CDA1CAF3DE700919F29 /* MainMenu.xib */,
+				F3F3CF791CB63C8300339EAE /* ImageCollectionViewItem.xib */,
+				F39C5CDD1CAF3DE700919F29 /* Info.plist */,
 			);
 			path = Mailage;
 			sourceTree = "<group>";
@@ -167,7 +158,6 @@
 				F39C5CD91CAF3DE700919F29 /* Assets.xcassets in Resources */,
 				F384810A1CB73A82005E95E3 /* Main.storyboard in Resources */,
 				F3F3CF7A1CB63C8300339EAE /* ImageCollectionViewItem.xib in Resources */,
-				F38EA3A91CB1D14A009436CB /* GalleryWindow.xib in Resources */,
 				F39C5CDC1CAF3DE700919F29 /* MainMenu.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -228,8 +218,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				F384810C1CB73B26005E95E3 /* AppViewController.swift in Sources */,
-				F384810E1CB754C1005E95E3 /* CollectionViewItem.swift in Sources */,
-				F38EA3AB1CB1D188009436CB /* GalleryWindowController.swift in Sources */,
 				F352145E1CB786CE00591293 /* AppWindowController.swift in Sources */,
 				F39C5CD71CAF3DE700919F29 /* AppDelegate.swift in Sources */,
 			);

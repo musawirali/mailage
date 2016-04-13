@@ -19,7 +19,17 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>OMGHTTPURLRQ.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Pods-Mailage.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>PromiseKit.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
@@ -37,7 +47,17 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>36ED46D51426DB40473E1286BE471AA5</key>
+		<key>190ACD3A51BC90B85EADB13E9CDD207B</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>2323694DBB2693E4C94D8B1794CAF71B</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>3395DCD1796F1F45FCBC5D06CE15D9DD</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -47,12 +67,12 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>703867F433CD1F3BD8486E8F8316FE72</key>
+		<key>A707CA7027521F3CECCDFE8FCDACB857</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>C6748CC6479B6C478C9EC97CD68D9188</key>
+		<key>BB1AFA3FDF34AA15725462FBC488F5F3</key>
 		<dict>
 			<key>primary</key>
 			<true/>

@@ -7,6 +7,25 @@ PODS:
   - GTMSessionFetcher/Core (1.1.0)
   - GTMSessionFetcher/Full (1.1.0):
     - GTMSessionFetcher/Core (= 1.1.0)
+  - OMGHTTPURLRQ (3.1.1):
+    - OMGHTTPURLRQ/RQ (= 3.1.1)
+  - OMGHTTPURLRQ/FormURLEncode (3.1.1)
+  - OMGHTTPURLRQ/RQ (3.1.1):
+    - OMGHTTPURLRQ/FormURLEncode
+    - OMGHTTPURLRQ/UserAgent
+  - OMGHTTPURLRQ/UserAgent (3.1.1)
+  - PromiseKit (3.1.1):
+    - PromiseKit/Foundation (= 3.1.1)
+    - PromiseKit/QuartzCore (= 3.1.1)
+    - PromiseKit/UIKit (= 3.1.1)
+  - PromiseKit/CorePromise (3.1.1)
+  - PromiseKit/Foundation (3.1.1):
+    - OMGHTTPURLRQ (~> 3.1.0)
+    - PromiseKit/CorePromise
+  - PromiseKit/QuartzCore (3.1.1):
+    - PromiseKit/CorePromise
+  - PromiseKit/UIKit (3.1.1):
+    - PromiseKit/CorePromise
   - Realm (0.98.6):
     - Realm/Headers (= 0.98.6)
   - Realm/Headers (0.98.6)
@@ -16,12 +35,15 @@ PODS:
 DEPENDENCIES:
   - CryptoSwift
   - GTMOAuth2
+  - PromiseKit
   - RealmSwift
 
 SPEC CHECKSUMS:
   CryptoSwift: baf01e3fb3226c0155cd54c266be882b13d45d5e
   GTMOAuth2: b3908247eeeb24b9bc90bd12739b4ef072919297
   GTMSessionFetcher: 5185aaf0dc5d4f532a4e55778d99105c66752159
+  OMGHTTPURLRQ: 633f98ee745aeda02345935a52eec1784cddb589
+  PromiseKit: 4e8127c22a9b29d1b44958ab2ec762ea6115cbfb
   Realm: 44803f35418c5d89b27825a564247fcd190de37e
   RealmSwift: c7239c52c83f8c43525a5269ba7be1694da33afc
 

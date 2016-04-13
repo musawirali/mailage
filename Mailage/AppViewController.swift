@@ -23,18 +23,18 @@ class AppViewController: NSViewController, NSCollectionViewDataSource {
     }
 
     func collectionView(collectionView: NSCollectionView, numberOfItemsInSection section: Int) -> Int {
-        if let appDelegate = NSApplication.sharedApplication().delegate as? AppDelegate {
-            return appDelegate.images.count
-        }
+//        if let appDelegate = NSApplication.sharedApplication().delegate as? AppDelegate {
+//            return appDelegate.images.count
+//        }
         return 0
     }
     
     func collectionView(collectionView: NSCollectionView, itemForRepresentedObjectAtIndexPath indexPath: NSIndexPath) -> NSCollectionViewItem {
         let cvi = self.collectionView.makeItemWithIdentifier("CollectionViewItem", forIndexPath: indexPath)
         
-        if let appDelegate = NSApplication.sharedApplication().delegate as? AppDelegate {
-            cvi.imageView?.image = appDelegate.images[indexPath.item]
-        }
+//        if let appDelegate = NSApplication.sharedApplication().delegate as? AppDelegate {
+//            cvi.imageView?.image = appDelegate.images[indexPath.item]
+//        }
         
         return cvi
     }
