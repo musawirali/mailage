@@ -14,6 +14,7 @@
 		F39C5CD71CAF3DE700919F29 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F39C5CD61CAF3DE700919F29 /* AppDelegate.swift */; };
 		F39C5CD91CAF3DE700919F29 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F39C5CD81CAF3DE700919F29 /* Assets.xcassets */; };
 		F39C5CDC1CAF3DE700919F29 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = F39C5CDA1CAF3DE700919F29 /* MainMenu.xib */; };
+		F3F25E6E1CC5CBDD0027D644 /* AppPopoverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F25E6D1CC5CBDD0027D644 /* AppPopoverViewController.swift */; };
 		F3F3CF7A1CB63C8300339EAE /* ImageCollectionViewItem.xib in Resources */ = {isa = PBXBuildFile; fileRef = F3F3CF791CB63C8300339EAE /* ImageCollectionViewItem.xib */; };
 /* End PBXBuildFile section */
 
@@ -29,6 +30,7 @@
 		F39C5CD81CAF3DE700919F29 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F39C5CDB1CAF3DE700919F29 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		F39C5CDD1CAF3DE700919F29 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F3F25E6D1CC5CBDD0027D644 /* AppPopoverViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppPopoverViewController.swift; sourceTree = "<group>"; };
 		F3F3CF791CB63C8300339EAE /* ImageCollectionViewItem.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ImageCollectionViewItem.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -90,6 +92,7 @@
 				F39C5CDA1CAF3DE700919F29 /* MainMenu.xib */,
 				F3F3CF791CB63C8300339EAE /* ImageCollectionViewItem.xib */,
 				F39C5CDD1CAF3DE700919F29 /* Info.plist */,
+				F3F25E6D1CC5CBDD0027D644 /* AppPopoverViewController.swift */,
 			);
 			path = Mailage;
 			sourceTree = "<group>";
@@ -217,6 +220,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F3F25E6E1CC5CBDD0027D644 /* AppPopoverViewController.swift in Sources */,
 				F384810C1CB73B26005E95E3 /* AppViewController.swift in Sources */,
 				F352145E1CB786CE00591293 /* AppWindowController.swift in Sources */,
 				F39C5CD71CAF3DE700919F29 /* AppDelegate.swift in Sources */,

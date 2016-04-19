@@ -158,6 +158,19 @@
             </objects>
             <point key="canvasLocation" x="854" y="695"/>
         </scene>
+        <!--App Popover View Controller-->
+        <scene sceneID="Rm6-uh-XyB">
+            <objects>
+                <viewController storyboardIdentifier="AppPopoverViewController" id="XnU-Ue-vAv" customClass="AppPopoverViewController" customModule="Mailage" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" id="r1c-cB-kwe">
+                        <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </view>
+                </viewController>
+                <customObject id="BtF-OA-AuI" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="526" y="1035"/>
+        </scene>
         <!--Collection View Item-->
         <scene sceneID="psp-b6-oTO">
             <objects>
