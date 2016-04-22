@@ -22,7 +22,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     // Window controllers
     var appWC: AppWindowController?
     var loginWC: GTMOAuth2WindowController?
-    let appPopover = NSPopover()
     
     // Google auth object
     var googleAuth: GTMOAuth2Authentication! = nil
@@ -51,19 +50,17 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         // Create status menu
         if let button = statusItem.button {
             button.image = NSImage(named: "StatusBarButtonImage")
-            button.action = #selector(togglePopover(_:))
         }
-        self.appPopover.contentViewController = NSStoryboard(name: "Main", bundle: NSBundle.mainBundle()).instantiateControllerWithIdentifier("AppPopoverViewController") as? AppPopoverViewController
         
-//        let menu = NSMenu(title: "Mailage")
-//        self.loginMenuItem = NSMenuItem(title: "Login", action: #selector(onLoginClick), keyEquivalent: "")
-//        
-//        menu.addItemWithTitle("Gallery", action: #selector(onGalleryClick), keyEquivalent: "")
-//        menu.addItem(NSMenuItem.separatorItem())
-//        menu.addItem(self.loginMenuItem!)
-//        menu.addItemWithTitle("Quit", action: #selector(onQuitClick), keyEquivalent: "q")
-//
-//        statusItem.menu = menu
+        let menu = NSMenu(title: "Mailage")
+        self.loginMenuItem = NSMenuItem(title: "Login", action: #selector(onLoginClick), keyEquivalent: "")
+        
+        menu.addItemWithTitle("Gallery", action: #selector(onGalleryClick), keyEquivalent: "")
+        menu.addItem(NSMenuItem.separatorItem())
+        menu.addItem(self.loginMenuItem!)
+        menu.addItemWithTitle("Quit", action: #selector(onQuitClick), keyEquivalent: "q")
+
+        statusItem.menu = menu
         
         // Grab last sync date
         let dateFormatter = NSDateFormatter()
@@ -73,38 +70,20 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             self.lastSyncDate = dateFormatter.dateFromString(syncDate)
         }
         
-//        // Open app window
-//        self.onGalleryClick(self)
-//        
-//        // Check auth
-//        self.googleAuth = GTMOAuth2WindowController.authForGoogleFromKeychainForName(self.keychainToken, clientID: self.clientId, clientSecret: self.clientSecret)
-//        if (!self.googleAuth.canAuthorize) {
-//            self.loginMenuItem?.title = self.loginMenuTitle
-//        } else {
-//            self.loginMenuItem?.title = "Logout"
-//            self.appWC?.onUserLoggedIn()
-//        }
+        // Open app window
+        self.onGalleryClick(self)
+        
+        // Check auth
+        self.googleAuth = GTMOAuth2WindowController.authForGoogleFromKeychainForName(self.keychainToken, clientID: self.clientId, clientSecret: self.clientSecret)
+        if (!self.googleAuth.canAuthorize) {
+            self.loginMenuItem?.title = self.loginMenuTitle
+        } else {
+            self.loginMenuItem?.title = "Logout"
+            self.appWC?.onUserLoggedIn()
+        }
     }
     
     func applicationWillTerminate(aNotification: NSNotification) {
-    }
-    
-    func togglePopover(sender: AnyObject?) {
-        if self.appPopover.shown {
-            self.appPopover.performClose(sender)
-            if let button = statusItem.button {
-                dispatch_async(dispatch_get_main_queue(), {
-                    button.highlighted = false
-                })
-            }
-        } else {
-            if let button = statusItem.button {
-                dispatch_async(dispatch_get_main_queue(), {
-                    button.highlighted = true
-                    self.appPopover.showRelativeToRect(button.bounds, ofView: button, preferredEdge: NSRectEdge.MinY)
-                })
-            }
-        }
     }
     
 

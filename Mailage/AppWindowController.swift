@@ -260,12 +260,30 @@ class AppWindowController: NSWindowController {
     }
     
     func downloadMessage(msgId: String, msg: Dictionary<String, AnyObject>) -> Promise<AnyObject?> {
+        let appDelegate = self.getAppDelegate()
+        
         if let body = msg["body"] as? Dictionary<String, AnyObject> {
             if let attachmentId = body["attachmentId"] as? String {
-                return dispatch_promise {
-                    sleep(1)
-                }.thenInBackground { (val) -> AnyObject? in
-                    print("Downloaded", attachmentId)
+                let urlStr = "https://www.googleapis.com/gmail/v1/users/me/messages/\(msgId)/attachments/\(attachmentId)".stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())
+                let req = NSMutableURLRequest(URL: NSURL(string: urlStr!)!);
+                
+                return Promise { fulfill, reject in
+                    appDelegate.googleAuth.authorizeRequest(req) { err in
+                        fulfill(req)
+                    }
+                }.thenInBackground { req in
+                    return NSURLConnection.promise(req)
+                }.thenInBackground { (data) -> Dictionary<String, AnyObject>? in
+                    print("Downloaded")
+                    if let json = try? NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.AllowFragments) {
+                        return json as? Dictionary<String, AnyObject>
+                    }
+                    return nil
+                }.thenInBackground { (img_data) -> AnyObject? in
+                    if let img_str = img_data?["data"] as? String {
+                        self.processImage(img_str)
+                    }
+                    print("Processed")
                     return nil
                 }
             }
@@ -276,6 +294,39 @@ class AppWindowController: NSWindowController {
             print("Empty", msgId)
             return nil
         }
+    }
+    
+    func processImage(img_data: String) {
+        let md5 = img_data.md5()
+        
+//        let realm = try! Realm()
+//        if realm.objects(Attachment).filter("imgId = '\(md5)'").count > 0 {
+//            return
+//        }
+        
+        let newstr = img_data.stringByReplacingOccurrencesOfString("_", withString: "/", options: NSStringCompareOptions.CaseInsensitiveSearch, range: nil)
+        let newstr2 = newstr.stringByReplacingOccurrencesOfString("-", withString: "+", options: NSStringCompareOptions.CaseInsensitiveSearch, range: nil)
+        
+        if let ns_data = NSData(base64EncodedString: newstr2, options: NSDataBase64DecodingOptions.IgnoreUnknownCharacters) {
+            if let img = NSImage(data: ns_data) {
+//                self.images.append(img)
+//                var set = Set<NSIndexPath>()
+//                set.insert(NSIndexPath(forItem: self.images.count - 1, inSection: 0))
+//                
+//                dispatch_async(dispatch_get_main_queue(), {
+//                    if let vc = self.appWC?.contentViewController as? AppViewController {
+//                        vc.collectionView.insertItemsAtIndexPaths(set)
+//                    }
+//                })
+            }
+        }
+        
+//        let attachment = Attachment()
+//        attachment.imgId = md5
+//        
+//        try! realm.write({
+//            realm.add(attachment)
+//        })
     }
     
     func getAppDelegate() -> AppDelegate {
