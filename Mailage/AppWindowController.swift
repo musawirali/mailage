@@ -231,8 +231,15 @@ class AppWindowController: NSWindowController {
                     }
                     
                     return prom
-                }.then { vals in
-                    print("Ended:")
+                }.then(on: self.message_download_queue) { (vals) -> Void in
+                    let realm = try! Realm()
+                    if let theMsg = realm.objects(Message).filter("msgId = '\(msgId)'").first {
+                        try! realm.write({
+                            theMsg.processed = true
+                        })
+                    }
+                    
+                    self.startDownloadMessages()
                 }
             } else {
                 // TODO: Send message to app delegate that we're logged out
@@ -309,6 +316,19 @@ class AppWindowController: NSWindowController {
         
         if let ns_data = NSData(base64EncodedString: newstr2, options: NSDataBase64DecodingOptions.IgnoreUnknownCharacters) {
             if let img = NSImage(data: ns_data) {
+                if let imgRep = img.representations.first as? NSBitmapImageRep {
+                    let props = Dictionary<String, AnyObject>();
+                    let img_file_data = imgRep.representationUsingType(.NSPNGFileType, properties: props);
+                    
+                    let fm = NSFileManager.defaultManager()
+                    let urls = fm.URLsForDirectory(NSSearchPathDirectory.PicturesDirectory, inDomains: NSSearchPathDomainMask.UserDomainMask)
+                    if let url = urls.first {
+                        if !fm.fileExistsAtPath(url.URLByAppendingPathComponent("mailage").path!) {
+                            try! fm.createDirectoryAtURL(url.URLByAppendingPathComponent("mailage"), withIntermediateDirectories: false, attributes: nil)
+                        }
+                        img_file_data?.writeToURL(url.URLByAppendingPathComponent("mailage/\(md5).png"), atomically: false);
+                    }
+                }
 //                self.images.append(img)
 //                var set = Set<NSIndexPath>()
 //                set.insert(NSIndexPath(forItem: self.images.count - 1, inSection: 0))
