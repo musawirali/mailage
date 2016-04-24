@@ -98,6 +98,18 @@ class AppWindowController: NSWindowController {
         }
     }
     
+    func updateMessageCount() {
+        dispatch_async(dispatch_get_main_queue()) { 
+            if let vc = self.contentViewController as? AppViewController {
+                let realm = try! Realm()
+                let msgCount = realm.objects(Message).count
+                let processedCount = realm.objects(Message).filter("processed = true").count
+                
+                vc.msgCountLabel.stringValue = "\(processedCount)/\(msgCount)"
+            }
+        }
+    }
+    
     func startGetMessageList() {
         let fetchDate = self.fetchedTill ?? NSDate(timeIntervalSince1970: 0)
         self.getMessages(nil, fetchDate: fetchDate)
@@ -126,8 +138,6 @@ class AppWindowController: NSWindowController {
                             let messages = (data["messages"] as? [Dictionary<String, AnyObject>]) ?? []
                             
                             // Save messages in Realm
-                            var addedCount = 0
-                            
                             let realm = try? Realm()
                             for message in messages {
                                 let msg_id = message["id"] as! String
@@ -139,13 +149,11 @@ class AppWindowController: NSWindowController {
                                         try! realm?.write({
                                             realm?.add(msg)
                                         })
-                                        addedCount += 1
                                     }
                                 }
                             }
                             
-                            //print("added", addedCount)
-                            
+                            self.updateMessageCount()
                             return data["nextPageToken"] as? String
                         }
                     }
@@ -265,6 +273,7 @@ class AppWindowController: NSWindowController {
                         })
                     }
                     
+                    self.updateMessageCount()
                     self.startDownloadMessages()
                 }
             } else {
@@ -418,6 +427,8 @@ class AppWindowController: NSWindowController {
                 //}
                 realm.delete(msgs)
             })
+            
+            self.updateMessageCount()
             
             dispatch_async(dispatch_get_main_queue(), {
                 self.clearBtn.title = "Clear"
