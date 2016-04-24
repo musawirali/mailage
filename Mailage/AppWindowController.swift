@@ -37,6 +37,10 @@ class AppWindowController: NSWindowController {
     // Fetch stats
     var fetchedTill: NSDate?
     
+    // Download status
+    var pausing = false
+    var paused = false
+    
     func onUserLoggedIn() {
         // Fetch profile
         self.fetchProfile()
@@ -181,9 +185,22 @@ class AppWindowController: NSWindowController {
     func startDownloadMessages() {
         let realm = try! Realm()
         
-        // If we have an unprocessed message, download it.
-        if let msg = realm.objects(Message).filter("processed = false").first {
-            self.downloadMessageImages(msg.msgId)
+        // Check for pause status
+        if self.pausing {
+            self.pausing = false
+            self.paused = true
+            dispatch_async(dispatch_get_main_queue(), {
+                self.pauseBtn.title = "Resume"
+                self.pauseBtn.enabled = true
+                self.clearBtn.enabled = true
+            })
+        }
+        
+        
+        // If we have an unprocessed message and are not paused, download it.
+        let msg = realm.objects(Message).filter("processed = false").first
+        if !self.paused && msg != nil {
+            self.downloadMessageImages(msg!.msgId)
         } else { // otherwise wait and try again
             dispatch_promise { () in
                 assert(!NSThread.isMainThread())
@@ -224,9 +241,18 @@ class AppWindowController: NSWindowController {
                         return nil
                     }
                     
-                    for msg in vals {
+                    print("Items:", vals.count)
+                    dispatch_async(dispatch_get_main_queue(), { 
+                        if let vc = self.contentViewController as? AppViewController {
+                            vc.progressBar.minValue = 0
+                            vc.progressBar.maxValue = Double(vals.count + 1)
+                            vc.progressBar.doubleValue = 1
+                        }
+                    })
+                    
+                    for (idx, msg) in vals.enumerate() {
                         prom = prom.thenInBackground {_ in
-                            self.downloadMessage(msgId, msg: msg)
+                            self.downloadMessage(idx, msgId: msgId, msg: msg)
                         }
                     }
                     
@@ -266,7 +292,7 @@ class AppWindowController: NSWindowController {
         }
     }
     
-    func downloadMessage(msgId: String, msg: Dictionary<String, AnyObject>) -> Promise<AnyObject?> {
+    func downloadMessage(msgNum: Int, msgId: String, msg: Dictionary<String, AnyObject>) -> Promise<AnyObject?> {
         let appDelegate = self.getAppDelegate()
         
         if let body = msg["body"] as? Dictionary<String, AnyObject> {
@@ -291,6 +317,11 @@ class AppWindowController: NSWindowController {
                         self.processImage(img_str)
                     }
                     print("Processed")
+                    dispatch_async(dispatch_get_main_queue(), {
+                        if let vc = self.contentViewController as? AppViewController {
+                            vc.progressBar.doubleValue = Double(msgNum + 2)
+                        }
+                    })
                     return nil
                 }
             }
@@ -358,35 +389,45 @@ class AppWindowController: NSWindowController {
     }
     
     @IBAction func onPause(sender: AnyObject) {
-        if let appDelegate = NSApplication.sharedApplication().delegate as? AppDelegate {
-//            if (appDelegate.isPaused) {
-//                dispatch_resume(appDelegate.download_msg_queue)
-//            } else {
-//                dispatch_suspend(appDelegate.download_msg_queue)
-//            }
-//            appDelegate.isPaused = !appDelegate.isPaused
-//            
-//            self.pauseBtn.title = appDelegate.isPaused ? "Resume" : "Pause"
+        if (!self.paused) {
+            self.pausing = true
+            self.pauseBtn.title = "Pausing ..."
+            self.pauseBtn.enabled = false
+        } else {
+            self.paused = false
+            self.clearBtn.enabled = false
+            self.pauseBtn.title = "Pause"
         }
     }
     
     @IBAction func onClear(sender: AnyObject) {
-        self.onPause(sender)
+        self.clearBtn.enabled = false
+        self.clearBtn.title = "Clearing..."
+        self.pauseBtn.enabled = false
         
-        if let appDelegate = NSApplication.sharedApplication().delegate as? AppDelegate {
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)) {
             let defaults = NSUserDefaults.standardUserDefaults()
             defaults.setValue(nil, forKey: "fetched-till")
             defaults.synchronize()
-//
-//            let realm = try! Realm()
-//            let msgs = realm.objects(Message)
-//            try! realm.write({
-//                //for msg in msgs {
-//                //    msg.processed = false
-//                //}
-//                realm.delete(msgs)
-//            })
-//            
+
+            let realm = try! Realm()
+            let msgs = realm.objects(Message)
+            try! realm.write({
+                //for msg in msgs {
+                //    msg.processed = false
+                //}
+                realm.delete(msgs)
+            })
+            
+            dispatch_async(dispatch_get_main_queue(), {
+                self.clearBtn.title = "Clear"
+                self.clearBtn.enabled = true
+                self.pauseBtn.enabled = true
+                
+                self.fetchedTill = nil
+            })
+        }
+        
 //            let imgs = realm.objects(Attachment)
 //            try! realm.write({
 //                realm.delete(imgs)
@@ -396,8 +437,5 @@ class AppWindowController: NSWindowController {
 //            if let vc = self.contentViewController as? AppViewController {
 //                vc.collectionView.reloadData()
 //            }
-        }
-        
-        self.onPause(sender)
     }
 }

@@ -13,7 +13,6 @@ import RealmSwift
 import CryptoSwift
 import PromiseKit
 
-
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
 

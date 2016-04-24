@@ -8,6 +8,7 @@
 
 import Foundation
 import Cocoa
+import Quartz
 
 class AppViewController: NSViewController, NSCollectionViewDataSource {
     
@@ -15,7 +16,7 @@ class AppViewController: NSViewController, NSCollectionViewDataSource {
     @IBOutlet weak var msgCountLabel: NSTextField!
     @IBOutlet weak var userEmailLabel: NSTextField!
     @IBOutlet weak var collectionView: NSCollectionView!
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         

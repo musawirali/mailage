@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15D21" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="ag3-ZZ-kh3">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="ag3-ZZ-kh3">
     <dependencies>
         <deployment identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="10116"/>
@@ -24,7 +24,7 @@
                                     <button key="view" verticalHuggingPriority="750" id="6An-Pu-unw">
                                         <rect key="frame" x="0.0" y="14" width="82" height="32"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                        <buttonCell key="cell" type="push" title="Clear" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="ccN-LQ-FWt">
+                                        <buttonCell key="cell" type="push" title="Clear" bezelStyle="rounded" alignment="center" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="ccN-LQ-FWt">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="system"/>
                                         </buttonCell>
@@ -74,8 +74,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="270"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
-                            <progressIndicator wantsLayer="YES" maxValue="100" style="bar" translatesAutoresizingMaskIntoConstraints="NO" id="er8-O7-6FI">
-                                <rect key="frame" x="15" y="9" width="262" height="20"/>
+                            <progressIndicator wantsLayer="YES" misplaced="YES" maxValue="100" style="bar" translatesAutoresizingMaskIntoConstraints="NO" id="er8-O7-6FI">
+                                <rect key="frame" x="15" y="9" width="32" height="20"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="262" id="MrV-bk-hxb"/>
                                     <constraint firstAttribute="height" constant="18" id="RY8-ZL-dHb"/>

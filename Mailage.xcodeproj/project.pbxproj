@@ -14,6 +14,7 @@
 		F39C5CD71CAF3DE700919F29 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F39C5CD61CAF3DE700919F29 /* AppDelegate.swift */; };
 		F39C5CD91CAF3DE700919F29 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F39C5CD81CAF3DE700919F29 /* Assets.xcassets */; };
 		F39C5CDC1CAF3DE700919F29 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = F39C5CDA1CAF3DE700919F29 /* MainMenu.xib */; };
+		F3A6B7151CCC6CF3004745F8 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F3A6B7141CCC6CF3004745F8 /* ImageIO.framework */; };
 		F3F25E6E1CC5CBDD0027D644 /* AppPopoverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F25E6D1CC5CBDD0027D644 /* AppPopoverViewController.swift */; };
 		F3F3CF7A1CB63C8300339EAE /* ImageCollectionViewItem.xib in Resources */ = {isa = PBXBuildFile; fileRef = F3F3CF791CB63C8300339EAE /* ImageCollectionViewItem.xib */; };
 /* End PBXBuildFile section */
@@ -30,6 +31,7 @@
 		F39C5CD81CAF3DE700919F29 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F39C5CDB1CAF3DE700919F29 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		F39C5CDD1CAF3DE700919F29 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F3A6B7141CCC6CF3004745F8 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
 		F3F25E6D1CC5CBDD0027D644 /* AppPopoverViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppPopoverViewController.swift; sourceTree = "<group>"; };
 		F3F3CF791CB63C8300339EAE /* ImageCollectionViewItem.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ImageCollectionViewItem.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -39,6 +41,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F3A6B7151CCC6CF3004745F8 /* ImageIO.framework in Frameworks */,
 				5A11B5FBA111D1CAE372D118 /* Pods_Mailage.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -49,6 +52,7 @@
 		1FB0EB5D822A4DD6A5F071B9 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F3A6B7141CCC6CF3004745F8 /* ImageIO.framework */,
 				BDA94FEDDD5A621FC3D3DACB /* Pods_Mailage.framework */,
 			);
 			name = Frameworks;
