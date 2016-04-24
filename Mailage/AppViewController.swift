@@ -8,7 +8,7 @@
 
 import Foundation
 import Cocoa
-import Quartz
+import RealmSwift
 
 class AppViewController: NSViewController, NSCollectionViewDataSource {
     
@@ -24,15 +24,28 @@ class AppViewController: NSViewController, NSCollectionViewDataSource {
     }
 
     func collectionView(collectionView: NSCollectionView, numberOfItemsInSection section: Int) -> Int {
-//        if let appDelegate = NSApplication.sharedApplication().delegate as? AppDelegate {
-//            return appDelegate.images.count
-//        }
-        return 0
+        let realm = try? Realm()
+        
+        return realm?.objects(Attachment).count ?? 0
     }
     
     func collectionView(collectionView: NSCollectionView, itemForRepresentedObjectAtIndexPath indexPath: NSIndexPath) -> NSCollectionViewItem {
         let cvi = self.collectionView.makeItemWithIdentifier("CollectionViewItem", forIndexPath: indexPath)
         
+        dispatch_async(dispatch_get_main_queue()) {
+            let realm = try! Realm()
+            let img = realm.objects(Attachment).sorted("dateAdded", ascending: true)[indexPath.item]
+
+            let fm = NSFileManager.defaultManager()
+            let urls = fm.URLsForDirectory(NSSearchPathDirectory.PicturesDirectory, inDomains: NSSearchPathDomainMask.UserDomainMask)
+            if let url = urls.first {
+                if let path = url.URLByAppendingPathComponent("mailage/\(img.imgId).png").path {
+                    if let ns_img = NSImage(contentsOfFile: path) {
+                        cvi.imageView?.image = ns_img
+                    }
+                }
+            }
+        }
 //        if let appDelegate = NSApplication.sharedApplication().delegate as? AppDelegate {
 //            cvi.imageView?.image = appDelegate.images[indexPath.item]
 //        }

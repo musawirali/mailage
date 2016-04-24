@@ -22,6 +22,16 @@ class Message: Object {
     }
 }
 
+class Attachment: Object {
+    dynamic var imgId = ""
+    dynamic var message: Message?
+    dynamic var dateAdded = NSDate(timeIntervalSince1970: 0)
+    
+    override static func indexedProperties() -> [String] {
+        return ["imgId"]
+    }
+}
+
 class AppWindowController: NSWindowController {
     
     @IBOutlet weak var pauseBtn: NSButton!
@@ -104,8 +114,9 @@ class AppWindowController: NSWindowController {
                 let realm = try! Realm()
                 let msgCount = realm.objects(Message).count
                 let processedCount = realm.objects(Message).filter("processed = true").count
+                let imgCount = realm.objects(Attachment).count
                 
-                vc.msgCountLabel.stringValue = "\(processedCount)/\(msgCount)"
+                vc.msgCountLabel.stringValue = "\(processedCount)/\(msgCount) --> \(imgCount)"
             }
         }
     }
@@ -323,7 +334,7 @@ class AppWindowController: NSWindowController {
                     return nil
                 }.thenInBackground { (img_data) -> AnyObject? in
                     if let img_str = img_data?["data"] as? String {
-                        self.processImage(img_str)
+                        self.processImage(msgId, img_data: img_str)
                     }
                     print("Processed")
                     dispatch_async(dispatch_get_main_queue(), {
@@ -343,13 +354,8 @@ class AppWindowController: NSWindowController {
         }
     }
     
-    func processImage(img_data: String) {
+    func processImage(msgId: String, img_data: String) {
         let md5 = img_data.md5()
-        
-//        let realm = try! Realm()
-//        if realm.objects(Attachment).filter("imgId = '\(md5)'").count > 0 {
-//            return
-//        }
         
         let newstr = img_data.stringByReplacingOccurrencesOfString("_", withString: "/", options: NSStringCompareOptions.CaseInsensitiveSearch, range: nil)
         let newstr2 = newstr.stringByReplacingOccurrencesOfString("-", withString: "+", options: NSStringCompareOptions.CaseInsensitiveSearch, range: nil)
@@ -367,8 +373,27 @@ class AppWindowController: NSWindowController {
                             try! fm.createDirectoryAtURL(url.URLByAppendingPathComponent("mailage"), withIntermediateDirectories: false, attributes: nil)
                         }
                         img_file_data?.writeToURL(url.URLByAppendingPathComponent("mailage/\(md5).png"), atomically: false);
+                        
+                        let realm = try! Realm()
+                        if realm.objects(Attachment).filter("imgId = '\(md5)'").count < 1 {
+                            let attachment = Attachment();
+                            attachment.imgId = md5
+                            attachment.message = realm.objects(Message).filter("msgId = '\(msgId)'").first
+                            attachment.dateAdded = NSDate()
+                            
+                            try! realm.write({
+                                realm.add(attachment)
+                            })
+                        }
+                        
+                        dispatch_async(dispatch_get_main_queue(), {
+                            if let vc = self.contentViewController as? AppViewController {
+                                vc.collectionView.reloadData()
+                            }
+                        })
                     }
                 }
+
 //                self.images.append(img)
 //                var set = Set<NSIndexPath>()
 //                set.insert(NSIndexPath(forItem: self.images.count - 1, inSection: 0))
@@ -421,10 +446,12 @@ class AppWindowController: NSWindowController {
 
             let realm = try! Realm()
             let msgs = realm.objects(Message)
+            let imgs = realm.objects(Attachment)
             try! realm.write({
                 //for msg in msgs {
                 //    msg.processed = false
                 //}
+                realm.delete(imgs)
                 realm.delete(msgs)
             })
             

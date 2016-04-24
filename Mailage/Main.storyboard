@@ -74,18 +74,18 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="270"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
-                            <progressIndicator wantsLayer="YES" misplaced="YES" maxValue="100" style="bar" translatesAutoresizingMaskIntoConstraints="NO" id="er8-O7-6FI">
-                                <rect key="frame" x="15" y="9" width="32" height="20"/>
+                            <progressIndicator wantsLayer="YES" maxValue="100" style="bar" translatesAutoresizingMaskIntoConstraints="NO" id="er8-O7-6FI">
+                                <rect key="frame" x="15" y="9" width="150" height="20"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="262" id="MrV-bk-hxb"/>
+                                    <constraint firstAttribute="width" constant="150" id="MrV-bk-hxb"/>
                                     <constraint firstAttribute="height" constant="18" id="RY8-ZL-dHb"/>
                                 </constraints>
                             </progressIndicator>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="tDx-aN-PEy">
-                                <rect key="frame" x="283" y="12" width="54" height="15"/>
+                                <rect key="frame" x="171" y="12" width="104" height="15"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="15" id="0PL-TE-1gx"/>
-                                    <constraint firstAttribute="width" constant="50" id="GIf-Dn-QEs"/>
+                                    <constraint firstAttribute="width" constant="100" id="GIf-Dn-QEs"/>
                                 </constraints>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" id="zax-0S-qgN">
                                     <font key="font" metaFont="smallSystem"/>
@@ -94,7 +94,7 @@
                                 </textFieldCell>
                             </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="2t1-7h-ikf">
-                                <rect key="frame" x="353" y="12" width="229" height="15"/>
+                                <rect key="frame" x="291" y="12" width="291" height="15"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="15" id="enA-2c-Q2d"/>
                                 </constraints>
