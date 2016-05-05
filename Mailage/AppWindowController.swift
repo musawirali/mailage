@@ -11,6 +11,7 @@ import Cocoa
 import RealmSwift
 import PromiseKit
 import GTMOAuth2
+import Quartz
 
 class Message: Object {
     dynamic var msgId = ""
@@ -122,7 +123,10 @@ class AppWindowController: NSWindowController {
     }
     
     func startGetMessageList() {
-        let fetchDate = self.fetchedTill ?? NSDate(timeIntervalSince1970: 0)
+        let dateFormatter = NSDateFormatter()
+        dateFormatter.dateFormat = "yyyy/MM/dd"
+
+        let fetchDate = self.fetchedTill ?? dateFormatter.dateFromString("1990/12/31")!
         self.getMessages(nil, fetchDate: fetchDate)
     }
     
@@ -388,7 +392,8 @@ class AppWindowController: NSWindowController {
                         
                         dispatch_async(dispatch_get_main_queue(), {
                             if let vc = self.contentViewController as? AppViewController {
-                                vc.collectionView.reloadData()
+                                //vc.collectionView.reloadData()
+                                vc.imgBrowser.reloadData();
                             }
                         })
                     }

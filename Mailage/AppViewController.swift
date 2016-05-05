@@ -9,6 +9,38 @@
 import Foundation
 import Cocoa
 import RealmSwift
+import Quartz
+
+class ImageItem: NSObject {
+    var imgId: String = ""
+    
+    init(idx: Int) {
+        let realm = try! Realm()
+        let img = realm.objects(Attachment).sorted("dateAdded", ascending: true)[idx]
+        self.imgId = img.imgId
+    }
+    
+    override func imageRepresentationType() -> String! {
+        return IKImageBrowserNSImageRepresentationType
+    }
+    
+    override func imageRepresentation() -> AnyObject! {
+        let fm = NSFileManager.defaultManager()
+        let urls = fm.URLsForDirectory(NSSearchPathDirectory.PicturesDirectory, inDomains: NSSearchPathDomainMask.UserDomainMask)
+        if let url = urls.first {
+            if let path = url.URLByAppendingPathComponent("mailage/\(self.imgId).png").path {
+                if let ns_img = NSImage(contentsOfFile: path) {
+                    return ns_img;
+                }
+            }
+        }
+        return NSImage();
+    }
+    
+    override func imageUID() -> String! {
+        return self.imgId
+    }
+}
 
 class AppViewController: NSViewController, NSCollectionViewDataSource {
     
@@ -16,17 +48,26 @@ class AppViewController: NSViewController, NSCollectionViewDataSource {
     @IBOutlet weak var msgCountLabel: NSTextField!
     @IBOutlet weak var userEmailLabel: NSTextField!
     @IBOutlet weak var collectionView: NSCollectionView!
+    @IBOutlet weak var imgBrowser: IKImageBrowserView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
+    }
+    
+    override func numberOfItemsInImageBrowser(aBrowser: IKImageBrowserView!) -> Int {
+        let realm = try? Realm()
         
-        self.collectionView.registerNib(NSNib(nibNamed: "ImageCollectionViewItem", bundle: nil), forItemWithIdentifier: "CollectionViewItem")
+        return realm?.objects(Attachment).count ?? 0
     }
 
     func collectionView(collectionView: NSCollectionView, numberOfItemsInSection section: Int) -> Int {
         let realm = try? Realm()
         
         return realm?.objects(Attachment).count ?? 0
+    }
+    
+    override func imageBrowser(aBrowser: IKImageBrowserView!, itemAtIndex index: Int) -> AnyObject! {
+        return ImageItem(idx: index)
     }
     
     func collectionView(collectionView: NSCollectionView, itemForRepresentedObjectAtIndexPath indexPath: NSIndexPath) -> NSCollectionViewItem {

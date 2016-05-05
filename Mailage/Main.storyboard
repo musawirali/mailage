@@ -3,6 +3,7 @@
     <dependencies>
         <deployment identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="10116"/>
+        <plugIn identifier="com.apple.imagekit.ibplugin" version="10116"/>
     </dependencies>
     <scenes>
         <!--Window Controller-->
@@ -104,51 +105,32 @@
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <scrollView autohidesScrollers="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="K7f-vw-EIt">
-                                <rect key="frame" x="15" y="36" width="565" height="214"/>
-                                <clipView key="contentView" id="QwG-zt-qEK">
-                                    <rect key="frame" x="1" y="1" width="563" height="212"/>
-                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                    <subviews>
-                                        <collectionView id="hPL-ya-v0D">
-                                            <rect key="frame" x="0.0" y="0.0" width="563" height="212"/>
-                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                            <collectionViewFlowLayout key="collectionViewLayout" minimumInteritemSpacing="10" minimumLineSpacing="10" id="3yJ-pj-6DS">
-                                                <size key="itemSize" width="150" height="150"/>
-                                            </collectionViewFlowLayout>
-                                            <color key="primaryBackgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                            <connections>
-                                                <outlet property="dataSource" destination="4GY-CF-XIB" id="0re-D0-VgZ"/>
-                                            </connections>
-                                        </collectionView>
-                                    </subviews>
-                                </clipView>
-                                <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="Z4k-ee-aKl">
-                                    <rect key="frame" x="1" y="144" width="233" height="15"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                </scroller>
-                                <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="8hV-n1-xj7">
-                                    <rect key="frame" x="234" y="1" width="15" height="143"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                </scroller>
-                            </scrollView>
+                            <ikImageBrowserView autoresizesSubviews="NO" zoomValue="0.61101007461547852" translatesAutoresizingMaskIntoConstraints="NO" id="YF6-Sl-15W">
+                                <rect key="frame" x="20" y="36" width="560" height="214"/>
+                                <autoresizingMask key="contentResizingMask" heightSizable="YES"/>
+                                <size key="cellSize" width="100" height="100"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="4GY-CF-XIB" id="dlw-PU-4oH"/>
+                                    <outlet property="delegate" destination="4GY-CF-XIB" id="XgM-EE-t6b"/>
+                                </connections>
+                            </ikImageBrowserView>
                         </subviews>
                         <constraints>
                             <constraint firstItem="tDx-aN-PEy" firstAttribute="leading" secondItem="er8-O7-6FI" secondAttribute="trailing" constant="8" id="AFz-OP-tax"/>
-                            <constraint firstItem="K7f-vw-EIt" firstAttribute="leading" secondItem="l7p-Fi-Hbx" secondAttribute="leading" constant="15" id="E1r-Sd-qGZ"/>
-                            <constraint firstItem="K7f-vw-EIt" firstAttribute="top" secondItem="l7p-Fi-Hbx" secondAttribute="top" constant="20" id="Gpp-Tm-tkm"/>
+                            <constraint firstItem="YF6-Sl-15W" firstAttribute="leading" secondItem="l7p-Fi-Hbx" secondAttribute="leading" constant="20" id="Cg8-H0-fKI"/>
+                            <constraint firstItem="YF6-Sl-15W" firstAttribute="top" secondItem="l7p-Fi-Hbx" secondAttribute="top" constant="20" id="HBe-9C-UBB"/>
                             <constraint firstAttribute="trailing" secondItem="2t1-7h-ikf" secondAttribute="trailing" constant="20" id="J01-c4-BId"/>
                             <constraint firstItem="2t1-7h-ikf" firstAttribute="centerY" secondItem="tDx-aN-PEy" secondAttribute="centerY" id="MW2-zT-K5O"/>
-                            <constraint firstAttribute="trailing" secondItem="K7f-vw-EIt" secondAttribute="trailing" constant="20" id="Mxs-ni-Jci"/>
+                            <constraint firstItem="er8-O7-6FI" firstAttribute="top" secondItem="YF6-Sl-15W" secondAttribute="bottom" constant="8" id="WAv-pb-VEV"/>
                             <constraint firstItem="tDx-aN-PEy" firstAttribute="centerY" secondItem="er8-O7-6FI" secondAttribute="centerY" id="ZGO-k1-xyB"/>
                             <constraint firstItem="er8-O7-6FI" firstAttribute="leading" secondItem="l7p-Fi-Hbx" secondAttribute="leading" constant="15" id="dnI-eU-EjP"/>
-                            <constraint firstItem="er8-O7-6FI" firstAttribute="top" secondItem="K7f-vw-EIt" secondAttribute="bottom" constant="8" id="eVO-7F-pgT"/>
                             <constraint firstItem="2t1-7h-ikf" firstAttribute="leading" secondItem="tDx-aN-PEy" secondAttribute="trailing" constant="20" id="iH1-p1-n77"/>
                             <constraint firstAttribute="bottom" secondItem="er8-O7-6FI" secondAttribute="bottom" constant="10" id="kkr-9J-kgf"/>
+                            <constraint firstAttribute="trailing" secondItem="YF6-Sl-15W" secondAttribute="trailing" constant="20" id="ofS-Li-T6Z"/>
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="collectionView" destination="hPL-ya-v0D" id="pXv-TK-Nfi"/>
+                        <outlet property="imgBrowser" destination="YF6-Sl-15W" id="NQA-8p-gvc"/>
                         <outlet property="msgCountLabel" destination="tDx-aN-PEy" id="eNP-bW-ceX"/>
                         <outlet property="progressBar" destination="er8-O7-6FI" id="LbB-NK-mJ2"/>
                         <outlet property="userEmailLabel" destination="2t1-7h-ikf" id="HcS-Fy-s9d"/>
