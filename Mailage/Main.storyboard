@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="ag3-ZZ-kh3">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15E65" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="ag3-ZZ-kh3">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="10116"/>
-        <plugIn identifier="com.apple.imagekit.ibplugin" version="10116"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="10117"/>
+        <plugIn identifier="com.apple.imagekit.ibplugin" version="10117"/>
     </dependencies>
     <scenes>
         <!--Window Controller-->
@@ -105,28 +105,46 @@
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <ikImageBrowserView autoresizesSubviews="NO" zoomValue="0.61101007461547852" translatesAutoresizingMaskIntoConstraints="NO" id="YF6-Sl-15W">
-                                <rect key="frame" x="20" y="36" width="560" height="214"/>
-                                <autoresizingMask key="contentResizingMask" heightSizable="YES"/>
-                                <size key="cellSize" width="100" height="100"/>
-                                <connections>
-                                    <outlet property="dataSource" destination="4GY-CF-XIB" id="dlw-PU-4oH"/>
-                                    <outlet property="delegate" destination="4GY-CF-XIB" id="XgM-EE-t6b"/>
-                                </connections>
-                            </ikImageBrowserView>
+                            <scrollView horizontalLineScroll="120" horizontalPageScroll="10" verticalLineScroll="120" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fbc-a2-GIV">
+                                <rect key="frame" x="19" y="35" width="577" height="216"/>
+                                <clipView key="contentView" copiesOnScroll="NO" id="RRH-hC-00u">
+                                    <rect key="frame" x="1" y="1" width="560" height="214"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <subviews>
+                                        <ikImageBrowserView autoresizesSubviews="NO" fixedFrame="YES" zoomValue="0.61101007461547852" allowsReordering="YES" translatesAutoresizingMaskIntoConstraints="NO" id="YF6-Sl-15W">
+                                            <rect key="frame" x="0.0" y="0.0" width="560" height="214"/>
+                                            <autoresizingMask key="contentResizingMask" heightSizable="YES"/>
+                                            <size key="cellSize" width="100" height="100"/>
+                                            <connections>
+                                                <outlet property="dataSource" destination="4GY-CF-XIB" id="dlw-PU-4oH"/>
+                                                <outlet property="delegate" destination="4GY-CF-XIB" id="XgM-EE-t6b"/>
+                                                <outlet property="dragDestinationDelegate" destination="4GY-CF-XIB" id="LIM-BJ-d73"/>
+                                            </connections>
+                                        </ikImageBrowserView>
+                                    </subviews>
+                                </clipView>
+                                <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="KKz-P0-fmB">
+                                    <rect key="frame" x="-100" y="-100" width="560" height="15"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </scroller>
+                                <scroller key="verticalScroller" verticalHuggingPriority="750" horizontal="NO" id="L4b-lF-RvQ">
+                                    <rect key="frame" x="561" y="1" width="15" height="214"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </scroller>
+                            </scrollView>
                         </subviews>
                         <constraints>
                             <constraint firstItem="tDx-aN-PEy" firstAttribute="leading" secondItem="er8-O7-6FI" secondAttribute="trailing" constant="8" id="AFz-OP-tax"/>
-                            <constraint firstItem="YF6-Sl-15W" firstAttribute="leading" secondItem="l7p-Fi-Hbx" secondAttribute="leading" constant="20" id="Cg8-H0-fKI"/>
-                            <constraint firstItem="YF6-Sl-15W" firstAttribute="top" secondItem="l7p-Fi-Hbx" secondAttribute="top" constant="20" id="HBe-9C-UBB"/>
                             <constraint firstAttribute="trailing" secondItem="2t1-7h-ikf" secondAttribute="trailing" constant="20" id="J01-c4-BId"/>
                             <constraint firstItem="2t1-7h-ikf" firstAttribute="centerY" secondItem="tDx-aN-PEy" secondAttribute="centerY" id="MW2-zT-K5O"/>
-                            <constraint firstItem="er8-O7-6FI" firstAttribute="top" secondItem="YF6-Sl-15W" secondAttribute="bottom" constant="8" id="WAv-pb-VEV"/>
+                            <constraint firstItem="fbc-a2-GIV" firstAttribute="top" secondItem="l7p-Fi-Hbx" secondAttribute="top" constant="19" id="OKC-4w-Ldu"/>
+                            <constraint firstItem="fbc-a2-GIV" firstAttribute="leading" secondItem="l7p-Fi-Hbx" secondAttribute="leading" constant="19" id="T2N-xl-ylz"/>
                             <constraint firstItem="tDx-aN-PEy" firstAttribute="centerY" secondItem="er8-O7-6FI" secondAttribute="centerY" id="ZGO-k1-xyB"/>
                             <constraint firstItem="er8-O7-6FI" firstAttribute="leading" secondItem="l7p-Fi-Hbx" secondAttribute="leading" constant="15" id="dnI-eU-EjP"/>
+                            <constraint firstItem="er8-O7-6FI" firstAttribute="top" secondItem="fbc-a2-GIV" secondAttribute="bottom" constant="7" id="hV9-Yk-a8E"/>
                             <constraint firstItem="2t1-7h-ikf" firstAttribute="leading" secondItem="tDx-aN-PEy" secondAttribute="trailing" constant="20" id="iH1-p1-n77"/>
                             <constraint firstAttribute="bottom" secondItem="er8-O7-6FI" secondAttribute="bottom" constant="10" id="kkr-9J-kgf"/>
-                            <constraint firstAttribute="trailing" secondItem="YF6-Sl-15W" secondAttribute="trailing" constant="20" id="ofS-Li-T6Z"/>
+                            <constraint firstAttribute="trailing" secondItem="fbc-a2-GIV" secondAttribute="trailing" constant="4" id="zuE-3b-4dD"/>
                         </constraints>
                     </view>
                     <connections>

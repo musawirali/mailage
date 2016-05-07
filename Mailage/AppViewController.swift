@@ -20,6 +20,16 @@ class ImageItem: NSObject {
         self.imgId = img.imgId
     }
     
+    func imgUrl() -> NSURL {
+        let fm = NSFileManager.defaultManager()
+        let urls = fm.URLsForDirectory(NSSearchPathDirectory.PicturesDirectory, inDomains: NSSearchPathDomainMask.UserDomainMask)
+        if let url = urls.first {
+            return url.URLByAppendingPathComponent("mailage/\(self.imgId).png")
+        }
+        
+        return NSURL()
+    }
+    
     override func imageRepresentationType() -> String! {
         return IKImageBrowserNSImageRepresentationType
     }
@@ -68,6 +78,19 @@ class AppViewController: NSViewController, NSCollectionViewDataSource {
     
     override func imageBrowser(aBrowser: IKImageBrowserView!, itemAtIndex index: Int) -> AnyObject! {
         return ImageItem(idx: index)
+    }
+    
+    override func imageBrowser(aBrowser: IKImageBrowserView!, writeItemsAtIndexes itemIndexes: NSIndexSet!, toPasteboard pasteboard: NSPasteboard!) -> Int {
+        
+        var imgs = Array<NSURL>();
+        for idx in itemIndexes {
+            let img = ImageItem(idx: idx)
+            imgs.append(img.imgUrl())
+        }
+        
+        pasteboard.clearContents()
+        pasteboard.writeObjects(imgs)
+        return imgs.count
     }
     
     func collectionView(collectionView: NSCollectionView, itemForRepresentedObjectAtIndexPath indexPath: NSIndexPath) -> NSCollectionViewItem {
